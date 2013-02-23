@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block title %}
+    My Timeline
+{% endblock %}
+{% block body %}
+  {% if session.logged_in %}
+    <li><img src= {{avatar}} </li>
+  {% else %}
+  {% endif %}
+
+  <h2>Home Page</h2>
+  <div id="myCarousel" class="carousel slide" style="margin:0 auto;width:950px">
+  <!-- Carousel items -->
+  <div class="carousel-inner">
+    <div class="active item">
+      <img src="static/img/img1.png" alt="">
+        <div class="carousel-caption">
+          <h4>First Thumbnail label</h4>
+            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+        </div>
+    </div>
+    <div class="item">
+      <img src="static/img/img2.png" alt="">
+        <div class="carousel-caption">
+          <h4>Second Thumbnail label</h4>
+            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+        </div>
+    </div>
+    <div class="item">
+      <img src="static/img/img3.png" alt="">
+        <div class="carousel-caption">
+          <h4>Third Thumbnail label</h4>
+            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+        </div>
+    </div>
+  </div>
+  
+  <!-- Carousel nav -->
+  <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+  <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+</div>
+
+
+  <li><img src="/static/img/logo-big.png" class="img-rounded" sizes="122x49"></li>
+{% endblock %}

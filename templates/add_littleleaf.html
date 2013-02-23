@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block body %}
+
+  <div class="container-fluid">
+  {% if error %}<p class="alert alert-error"><strong>Error:</strong> {{ error }}{% endif %}
+  <div class="row-fluid">
+    <div class="span8">
+      <img src="/static/img/add_littleleaf.jpg">
+    </div>
+    <div class="span4">
+      <h2>增加小叶子</h2>
+      <form action="" method=post>
+        <dl>
+          <dt>姓名:
+          <dd><input type=text name=name>
+          <dt>性别:
+          <dd>
+            <select name=sex>
+               <option value="男">男</option>
+               <option value="女">女</option>
+               <option value="保密">保密</option>
+            </select>
+          <dt>信息:
+          <dd><input type=text name=lleafinfo>
+
+          <dd><input class="btn btn-large btn-primary" type=submit value='提交'>
+        </dl>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

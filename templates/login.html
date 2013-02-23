@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block title %}Sign In{% endblock %}
+{% block body %}
+
+<div class="container-fluid">
+  {% if error %}<p class="alert alert-error"><strong>Error:</strong> {{ error }}{% endif %}
+  <div class="row-fluid">
+    <div class="span8">
+      <img src="/static/img/loginpic.jpg">
+    </div>
+    <div class="span4">
+      <h2>Login</h2>
+      <form action="" method=post>
+    <dl>
+      <dt>E-Mail:
+      <dd><input type=text name=email value="{{ request.form.email }}">
+      <dt>Password:
+      <dd><input type=password name=password>
+      <dd><input class="btn btn-large btn-primary" type=submit value="登录">
+    </dl>
+  </form>
+    </div>
+  </div>
+{% endblock %}

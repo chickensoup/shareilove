@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    <meta charset="utf-8">
+    <title>
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Le styles -->
+    <link href="static/css/bootstrap.css" rel="stylesheet">
+    <style>
+      body { padding-top: 60px; /* 60px to make the container go all the way
+      to the bottom of the topbar */ }
+    </style>
+    <link href="static/css/bootstrap-responsive.css" rel="stylesheet">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
+      </script>
+    <![endif]-->
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+    <style>
+    </style>
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top ">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="{{ url_for('home') }}">
+            <strong>
+              ShareI
+            </strong>
+          </a>
+          
+          <ul class="nav">
+            <li>
+              <img src="/static/img/logo-ch.png" width="80">
+            </li>
+            <li>
+              <a href="{{ url_for('home') }}">
+                首页
+              </a>
+            </li>
+            <li>
+              <a href="{{ url_for('show_littleleafs') }}">
+                小叶子
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                大叶子
+              </a>
+            </li>
+            <li>
+              <a href="{{ url_for('about') }}">
+                关于我们
+              </a>
+            </li>
+          </ul>
+          <ul class="nav pull-right">
+            {% if session.logged_in %}
+              <li><a>Welcome! {{ session['bleaf_name'] }}</a></li>
+              <li><a href="{{ url_for('logout') }}">注销</a></li>
+            {% else %}
+              <li><a href="{{ url_for('register') }}">注册</a></li>
+              <li><a href="{{ url_for('login') }}">登录</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      {% block body %}{% endblock %}
+
+      <hr>
+      <div>
+        © ShareI 2013
+      </div>
+    </div>
+    
+
+    <style>
+      
+    </style>
+    <script src="/static/js/jquery.min.js">
+    </script>
+    <script src="static/js/bootstrap.js">
+    </script>
+  </body>
+</html>
