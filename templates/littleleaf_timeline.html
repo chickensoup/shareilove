@@ -2,9 +2,63 @@
 {% block title %}Little Leaf{% endblock %}
 
 {% block body %}
+
 <div class="container-fluid">
   {% if error %}<p class="alert alert-error"><strong>Error:</strong> {{ error }}
   {% endif %}
+
+<div id="tl_container">
+
+  
+  
+    <!-- E TimeLine导航 -->
+  <div class="tl_timeline_container">
+      <div class="tl_timeline">
+          <div class="tl_plus"></div>
+      </div>
+    </div>
+  <!-- E TimeLine导航 -->
+    
+  <!-- S item -->
+  <div class="tl_item">
+    <div class="tl_inner">
+          <h2><a href="http://sc.chinaz.com">如何写出好的文案？说人话，简明而足够！</a></h2>
+            <p>不知道大家有没有看过这样一个视频： 女士对盲人乞丐做了什么? 视频最后说change your words，change your world，由此可以看出文案的魅力。好的文案可以吸引用户，并带来转化率的大幅提升。那么我们就来讨论一下，如何写出好的文案。 什么是好文案? 1. 说人...</p>
+        </div>
+  </div>
+  <!-- E item -->
+    
+  <!-- S item -->
+  <div class="tl_item">
+    <div class="tl_inner">
+          <h2><a href="http://sc.chinaz.com">专访苹果CEO，Tim Cook上任第一年</a></h2>
+            <p>本文为Bloomberg BusinessweekTim Cooks Freshman Year: The Apple CEO Speaks一文的翻译，作者为Josh Tyrangiel。依照惯例，有心人士请直接观看原文。 早在 2011 年 10 月 5 日，Steve Jobs 辞世之前，他就已经确保了他长久以来信任的副手Tim Cook 能平稳地...</p>
+            <p>本文为Bloomberg BusinessweekTim Cooks Freshman Year: The Apple CEO Speaks一文的翻译，作者为Josh Tyrangiel。依照惯例，有心人士请直接观看原文。 早在 2011 年 10 月 5 日，Steve Jobs 辞世之前，他就已经确保了他长久以来信任的副手Tim Cook 能平稳地...</p>
+        </div>
+  </div>
+  <!-- E item -->
+    
+    <!-- S item -->
+  <div class="tl_item">
+    <div class="tl_inner">
+          <h2><a href="http://sc.chinaz.com">解读电商寒冬年：2012年电商十大事件</a></h2>
+            <p>IT互联网行业纷纷扰扰又一年，为了回顾过去，更为了展望未来，本刊将陆续推出系列盘点文章，剖析行业繁华与落寞，首篇选定目前仍最热门的电子商务。</p>
+        </div>
+  </div>
+  <!-- E item -->
+    
+    <!-- S item -->
+  <div class="tl_item">
+    <div class="tl_inner">
+          <h2><a href="http://sc.chinaz.com">【读图】哪条网购渠道会受消费者青睐？</a></h2>
+            <p>从Nielsen的调查结果上看，在全球范围内，纯线上电商网站依然是大部分用户网购的首选渠道，尤其是亚洲，选择其进行网购的人数正在增长。</p>
+        </div>
+  </div>
+  <!-- E item -->
+    
+</div>
+<!--DEMO end-->
+
   <div class="row">
     <div class="row">
     {{littleleaf.lleaf_id}}
@@ -13,6 +67,17 @@
     {{littleleaf.lleafinfo}}
     {{littleleaf.status}}
   </div>
+  {%if blogs %}
+    {% for blog in blogs %}
+      <div>
+        {{ blog.title }}
+        {{ blog.blogtext }}
+        {{ blog.bleaf }}
+        {{ blog.lleaf }}
+      </div>
+    {% endfor%}
+  {%endif%}
+
   </div>
 </div>
 {% endblock %}

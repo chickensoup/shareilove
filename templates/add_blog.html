@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="hero-unit">
+  <div class="container-fluid">
+    {% if error %}<p class="alert alert-error"><strong>Error:</strong> {{ error }}{% endif %}
+    <form action="" method=post>
+    <dl>
+    <dd><input type=text name=blogtitle>
+    <dd><textarea rows="10" name=blogtext></textarea>
+    <dd><input class="btn btn-primary" type=submit value='提交'>
+    </dl>
+    </form>
+  </div>
+</div>
+{% endblock %}

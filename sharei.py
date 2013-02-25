@@ -1,5 +1,5 @@
 from __future__ import with_statement
-import time, os
+import time, os, urllib, hashlib
 from sqlite3 import dbapi2 as sqlite3
 from hashlib import md5
 from datetime import datetime
@@ -96,8 +96,13 @@ def format_datetime(timestamp):
 
 def gravatar_url(email, size=80):
     """Return the gravatar image for the given email address."""
-    return 'http://www.gravatar.com/avatar/%s?d=identicon&s=%d' % \
-        (md5(email.strip().lower().encode('utf-8')).hexdigest(), size)
+    return 'http://www.gravatar.com/avatar/%s' % \
+        (md5(email.strip().lower().encode('utf-8')).hexdigest())
+
+def gravatar_url_by_bleaf_id(bleaf_id, size=80):
+    rv = query_db('select email from bleaf where bleaf_id = ?',
+                  [bleaf_id], one=True)
+    return gravatar_url(rv, size)
 
 
 @app.before_request
@@ -110,9 +115,8 @@ def before_request():
 @app.route('/')
 def home():
     if 'bleaf_id' in session:
-        #g.bleaf = query_db('select * from bleaf where bleaf_id = ?', [session['bleaf_id']], one=True)
-        avatarpath = UPLOAD_FOLDER + '/' + g.bleaf['avatar']
-        return render_template('home.html', avatar=avatarpath)
+        g.bleaf = query_db('select * from bleaf where bleaf_id = ?', [session['bleaf_id']], one=True)
+        return render_template('home.html', bleaf=g.bleaf)
     else:
 	   return render_template('home.html')
 
@@ -142,9 +146,9 @@ def register():
         else:
             db = get_db()
             db.execute('insert into bleaf ( \
-                email, uname, sex, ulevel, password, createtime) \
-                values (?, ?, ?, ?, ?, ?)', [request.form['email'], \
-                request.form['uname'], request.form['sex'], \
+                email, avatar, uname, sex, ulevel, password, createtime) \
+                values (?, ?, ?, ?, ?, ?, ?)', [request.form['email'], \
+                gravatar_url(request.form['email'], 80), request.form['uname'], request.form['sex'], \
                 0, generate_password_hash(request.form['password']), datetime.datetime.now()])
             db.commit()
             flash('You were successfully registered and can login now')
@@ -178,6 +182,7 @@ def login():
 def logout():
     session.pop('logged_in', None)
     session.pop('bleaf_id', None)
+    session.pop('bleaf_name', None)
     flash('You were logged out')
     return redirect(url_for('home'))
 
@@ -198,7 +203,29 @@ def show_littleleaf(lleaf_id):
         error = 'Invalid little leaf id'
         return render_template('littleleaf.html', error=error)
 
-    return render_template('littleleaf_timeline.html', littleleaf=littleleaf)
+    blogs = query_db('select * from blog where blog.lleaf_id = ?', [lleaf_id])
+
+    return render_template('littleleaf_timeline.html', littleleaf=littleleaf, blogs=blogs)
+
+@app.route('/add_blog', methods=['GET', 'POST'])
+def add_blog():
+    """Add new blog"""
+    error = None
+    if request.method == 'POST':
+        if not request.form['blogtitle']:
+            error = 'You have to enter blog title'
+        elif not request.form['blogtext']:
+            error = 'You have to enter blog text'
+        else:
+            db = get_db()
+            db.execute('insert into blog ( \
+                title, blogtext, bleaf_id, lleaf_id, createtime) \
+                values (?, ?, ?, ?, ?)', [request.form['blogtitle'], \
+                request.form['blogtext'], 1, 1, datetime.datetime.now()])
+            db.commit()
+            flash('new blog added!')
+            return redirect(url_for('home'))
+    return render_template('add_blog.html', error=error)
 
 
 @app.route('/add_littleleaf', methods=['GET', 'POST'])
@@ -224,5 +251,5 @@ def add_littleleaf():
 
 if __name__ == '__main__':
     app.debug = True
-    #app.run()
-    app.run(host='59.66.116.51', port=80)
+    app.run()
+    #app.run(host='59.66.116.51', port=80)
