@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    <meta charset="utf-8">
+    <title>
+      享 爱:分享点滴，聚爱成海
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Le styles -->
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <style>
+      body { padding-top: 60px; /* 60px to make the container go all the way
+      to the bottom of the topbar */ }
+
+      <script>
+      *{ margin:0; padding:0; }
+
+      h1 { font-size:18px; text-align:center; margin:20px;}
+      #tl_container { position:relative; width:860px; margin:0 auto; }
+      .tl_item {width:368px; margin:20px 10px 15px; padding-left:20px;float:left; background:#fff; border:1px solid #b4bbcd; text-align:justify; word-wrap:break-word;}
+      .tl_inner { padding:10px;}
+      .tl_inner h2 { margin-bottom:10px;}
+      .tl_inner h2 a { font-size:15px; color:#333; text-decoration:none;}
+      .tl_inner h2 a:hover {color:#f30;}
+
+      /*timeline navigatior css*/
+      .tl_timeline_container { display:block; width:16px; height:100%; margin:0 auto;text-align:center; cursor:pointer;}
+      .tl_timeline{ display:block; width:24px; height:100%; margin:0 auto; overflow:hidden; font-size:0; float:left; position:absolute; left:408px; top:10px; background-color:#008000;}
+
+      /*arrow css style*/
+      .tl_leftCorner, .tl_rightCorner { display:block; width:13px; height:15px; overflow:hidden; position:absolute; top:8px; z-index:2; }
+      .tl_rightCorner { right:-13px; background-image:url(/static/img/right.gif);}
+      .tl_leftCorner { left:-13px; background-image:url(/static/img/left.gif);}
+      </script>
+
+    </style>
+    <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
+      </script>
+    <![endif]-->
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/static/img/logo.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/img/logo.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/img/logo.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/img/logo.png">
+    <link rel="apple-touch-icon-precomposed" href="/static/img/logo.png">
+  </head>
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+    <div class="navbar navbar-fixed-top ">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="{{ url_for('home') }}">
+            <strong>
+              ShareI
+            </strong>
+          </a>
+          
+          <ul class="nav">
+            <li>
+              <img src="/static/img/logo-ch.png" width="80">
+            </li>
+            <li>
+              <a href="{{ url_for('home') }}">
+                首页
+              </a>
+            </li>
+            <li>
+              <a href="{{ url_for('show_littleleafs') }}">
+                小叶子
+              </a>
+            </li>
+            <li>
+              <a href="{{ url_for('show_bigleafs') }}">
+                大叶子
+              </a>
+            </li>
+            <li>
+              <a href="{{ url_for('about') }}">
+                关于我们
+              </a>
+            </li>
+          </ul>
+          <ul class="nav pull-right">
+            {% if session.logged_in %}
+              <li><a>Welcome! {{ session['bleaf_name'] }}</a></li>
+              <li><a href="{{ url_for('logout') }}">注销</a></li>
+            {% else %}
+              <li><a href="{{ url_for('register') }}">注册</a></li>
+              <li><a href="{{ url_for('login') }}">登录</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      {% block body %}{% endblock %}
+    </div>
+    
+    <footer class="footer">
+      <div class="container">
+        © ShareI 2013
+      </div>
+    </footer>
+    
+    
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/jquery.masonry.min.js"></script>
+    
+    <script type="text/javascript" >
+    $(function(){
+    // masonry plugin call
+    $('#tl_container').masonry({
+      itemSelector : '.tl_item',
+      gutterWidth: 20
+      });
+    
+    //injecting arrow points
+    function Arrow_Points(){
+      var s = $("#tl_container").find(".tl_item");
+      $.each(s,function(i,obj){
+      var posLeft = $(obj).css("left");
+      if(posLeft == "0px"){
+        html = "<span class='tl_rightCorner'></span>";
+        $(obj).prepend(html);
+      } else {
+        html = "<span class='tl_leftCorner'></span>";
+        $(obj).prepend(html);
+      }
+      });
+    }
+    Arrow_Points();
+    });
+    </script>
+
+  </body>
+</html>

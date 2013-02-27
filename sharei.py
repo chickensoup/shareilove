@@ -1,5 +1,5 @@
 ﻿from __future__ import with_statement
-import time, os, urllib, hashlib
+import time, os, urllib, hashlib, socket
 from sqlite3 import dbapi2 as sqlite3
 from hashlib import md5
 from datetime import datetime
@@ -274,4 +274,4 @@ def add_littleleaf():
 if __name__ == '__main__':
     app.debug = True
     #app.run()
-    app.run(host='59.66.116.96', port=8080)
+    app.run('0.0.0.0')

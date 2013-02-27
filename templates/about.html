@@ -1,20 +1,23 @@
 {% extends "layout.html" %}
 {% block body %}
-<div class="container">
-	<div class="hero-unit">
-		
-		<div class="well">
-			shareI团队简介
-		</div>
-		<div class="well">
-			我们的目标：
-		</div>
-		<div class="well">
-			我们的形式：
-		</div>
-		<div class="well">
-			我们的独特性：
-		</div>
-	</div>
-</div>
+<div class="tabbable tabs-left">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#lA" data-toggle="tab">我们的理念</a></li>
+    <li><a href="#lB" data-toggle="tab">我们的团队</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="lA">
+      <p>享•爱是由大学生发起和创办的教育公益类社交网站，旨在推行公益理念，在以高校学生为主体的青年人群中推广与贫困落后地区学生建立帮扶关系的生活方式。
+      	在享•爱，捐助者必须以结伴形式共同捐助同一个受助者。</p>
+      	<p>一方面，落后地区的学生能够从捐助者处得到经济上的支持，以保障其完成学业，同时，也能从捐助者处得到精神和思想方面的交流与帮助。</p>
+      	<p>另一方面，捐助者在对同一个受助者建立捐助关系的同时，能够分享捐助过程的点滴，建立良好的关系，把共同捐助变成彼此生活中的重要联系，使得双方或多方能够建立深厚的感情。</p>
+      	<p>在付出爱的过程中收获爱，分享爱同时也能享受爱——这就是享爱的理念。</p>
+    </div>
+    <div class="tab-pane" id="lB">
+      <p>Howdy, I'm in Section B.</p>
+    </div>
+  </div>
+</div> <!-- /tabbable -->
+
+
 {% endblock %}
