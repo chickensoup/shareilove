@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %}大叶子日志{% endblock %}
+
+{% block body %}
+<div class="hero-unit">
+    {% if error %}<p class="alert alert-error"><strong>Error:</strong> {{ error }}
+    {% endif %}
+    <li>
+      {{ blog.blog_id }}
+      {{ blog.title }}
+      {{ blog.blogtext }}
+      </li>
+</div>
+</div>
+
+
+{% endblock %}

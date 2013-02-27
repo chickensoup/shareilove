@@ -1,4 +1,4 @@
-from __future__ import with_statement
+﻿from __future__ import with_statement
 import time, os, urllib, hashlib
 from sqlite3 import dbapi2 as sqlite3
 from hashlib import md5
@@ -99,12 +99,6 @@ def gravatar_url(email, size=80):
     return 'http://www.gravatar.com/avatar/%s' % \
         (md5(email.strip().lower().encode('utf-8')).hexdigest())
 
-def gravatar_url_by_bleaf_id(bleaf_id, size=80):
-    rv = query_db('select email from bleaf where bleaf_id = ?',
-                  [bleaf_id], one=True)
-    return gravatar_url(rv, size)
-
-
 @app.before_request
 def before_request():
     g.bleaf = None
@@ -125,24 +119,22 @@ def about():
 	return render_template('about.html')
 
 
-
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     """Register the big leaf as new user"""
     error = None
     if request.method == 'POST':
         if not request.form['uname']:
-            error = 'You have to enter a username'
+            error = '请输入用户名'
         elif not request.form['email'] or \
                  '@' not in request.form['email']:
-            error = 'You have to enter a valid email address'
+            error = '请输入您的email地址'
         elif not request.form['password']:
-            error = 'You have to enter a password'
+            error = '请输入密码'
         elif request.form['password'] != request.form['password2']:
-            error = 'The two passwords do not match'
+            error = '两次输入密码不一致'
         elif get_user_id(request.form['email']) is not None:
-            error = 'The email is already registered'
+            error = '该邮箱已被注册'
         else:
             db = get_db()
             db.execute('insert into bleaf ( \
@@ -151,7 +143,7 @@ def register():
                 gravatar_url(request.form['email'], 80), request.form['uname'], request.form['sex'], \
                 0, generate_password_hash(request.form['password']), datetime.datetime.now()])
             db.commit()
-            flash('You were successfully registered and can login now')
+            flash('注册成功！转向登陆页面...')
             return redirect(url_for('login'))
     return render_template('register.html', error=error)
 
@@ -166,12 +158,12 @@ def login():
         user = query_db('''select * from bleaf where
             email = ?''', [request.form['email']], one=True)
         if user is None:
-            error = 'Invalid E-Mail address'
+            error = '不存在这个email的注册信息'
         elif not check_password_hash(user['password'],
                                      request.form['password']):
-            error = 'Invalid password'
+            error = '密码不正确'
         else:
-            flash('You were logged in')
+            flash('正在登陆...')
             session['bleaf_id'] = user['bleaf_id']
             session['logged_in'] = True
             session['bleaf_name'] = user['uname']
@@ -207,15 +199,45 @@ def show_littleleaf(lleaf_id):
 
     return render_template('littleleaf_timeline.html', littleleaf=littleleaf, blogs=blogs)
 
+@app.route('/bigleaf')
+def show_bigleafs():
+    bigleafs = query_db('''select * from bleaf''')
+    error = None
+    if bigleafs is None:
+        error = 'No big leaf now'
+        return render_template('bigleaf.html', error=error)
+    else:
+        return render_template('bigleaf.html', error=error, bigleafs = bigleafs)
+
+@app.route('/bigleaf/<bleaf_id>')
+def show_bigleaf(bleaf_id):
+    bigleaf = query_db('select * from bleaf where bleaf.bleaf_id = ?', [bleaf_id], one=True)
+    if bigleaf is None:
+        error = 'Invalid big leaf id'
+        return render_template('home.html', error=error)
+
+    blogs = query_db('select * from blog where blog.bleaf_id = ?', [bleaf_id])
+
+    return render_template('bigleaf_timeline.html', bigleaf=bigleaf)
+
+@app.route('/blog/<blog_id>')
+def show_blog(blog_id):
+    blog = query_db('select * from blog where blog.blog_id = ?', [blog_id], one=True)
+    if blog is None:
+        error = '不存在此日志'
+        return render_template('littleleaf.html', error=error)
+
+    return render_template('blog.html', blog=blog)
+
 @app.route('/add_blog', methods=['GET', 'POST'])
 def add_blog():
     """Add new blog"""
     error = None
     if request.method == 'POST':
         if not request.form['blogtitle']:
-            error = 'You have to enter blog title'
+            error = '请输入日志标题'
         elif not request.form['blogtext']:
-            error = 'You have to enter blog text'
+            error = '请输入日志内容'
         else:
             db = get_db()
             db.execute('insert into blog ( \
@@ -223,7 +245,7 @@ def add_blog():
                 values (?, ?, ?, ?, ?)', [request.form['blogtitle'], \
                 request.form['blogtext'], 1, 1, datetime.datetime.now()])
             db.commit()
-            flash('new blog added!')
+            flash('日志提交成功！')
             return redirect(url_for('home'))
     return render_template('add_blog.html', error=error)
 
@@ -234,9 +256,9 @@ def add_littleleaf():
     error = None
     if request.method == 'POST':
         if not request.form['name']:
-            error = 'You have to enter a name'
+            error = '请输入小叶子的名字'
         elif not request.form['lleafinfo']:
-            error = 'You have to enter valid info'
+            error = '请输入小叶子的信息'
         else:
             db = get_db()
             db.execute('insert into lleaf ( \
@@ -251,5 +273,5 @@ def add_littleleaf():
 
 if __name__ == '__main__':
     app.debug = True
-    app.run()
-    #app.run(host='59.66.116.51', port=80)
+    #app.run()
+    app.run(host='59.66.116.96', port=8080)

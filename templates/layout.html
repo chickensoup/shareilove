@@ -4,6 +4,7 @@
   <head>
     <meta charset="utf-8">
     <title>
+      享 爱:分享点滴，聚爱成海
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -44,11 +45,11 @@
       </script>
     <![endif]-->
     <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="assets/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="/assets/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="/static/img/logo.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/img/logo.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/img/logo.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/img/logo.png">
+    <link rel="apple-touch-icon-precomposed" href="/static/img/logo.png">
   </head>
   <body>
     <div class="navbar navbar-fixed-top ">
@@ -75,7 +76,7 @@
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="{{ url_for('show_bigleafs') }}">
                 大叶子
               </a>
             </li>
@@ -102,7 +103,7 @@
 
       {% block body %}{% endblock %}
 
-    </div>
+    
       <hr>
       <div>
         © ShareI 2013

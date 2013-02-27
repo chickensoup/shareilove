@@ -1,4 +1,27 @@
 {% extends "layout.html" %}
+{% block title %}Little Leaf{% endblock %}
+
 {% block body %}
-  <h2>欢迎</h2>  
+<div class="hero-unit">
+  <h3>大叶子</h3>
+    {% if error %}<p class="alert alert-error"><strong>Error:</strong> {{ error }}
+    {% endif %}
+    {% for bigleaf in bigleafs %}
+    <div class = "row">
+      <div class="row">
+        {{bigleaf.bleaf_id}}
+        {{bigleaf.uname}}
+        {{bigleaf.sex}}
+        <img src={{bigleaf.avatar}}>
+        {{bigleaf.rrurl}}
+        {{bigleaf.sinawburl}}
+        {{bigleaf.qqwburl}}
+        {{bigleaf.createtime}}
+        <a href="{{ url_for('show_bigleaf', bleaf_id=bigleaf.bleaf_id) }}" target="_blank">See</a>
+      </div>
+    </div>
+    {% endfor %}
+</div>
+
+
 {% endblock %}
