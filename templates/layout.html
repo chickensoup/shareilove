@@ -77,55 +77,49 @@
   <style id="holderjs-style" type="text/css">.holderjs-fluid {font-size:16px;font-weight:bold;text-align:center;font-family:sans-serif;margin:0}</style><style>@-moz-keyframes nodeInserted{from{opacity:0;}to{opacity:1;}}@-webkit-keyframes nodeInserted{from{opacity:0;}to{opacity:1;}}@-o-keyframes nodeInserted{from{opacity:0;}to{opacity:1;}}@keyframes nodeInserted{from{opacity:0;}to{opacity:1;}}embed,object{animation-duration:.001s;-ms-animation-duration:.001s;-moz-animation-duration:.001s;-webkit-animation-duration:.001s;-o-animation-duration:.001s;animation-name:nodeInserted;-ms-animation-name:nodeInserted;-moz-animation-name:nodeInserted;-webkit-animation-name:nodeInserted;-o-animation-name:nodeInserted;}</style></head>
 
   <body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true" youdao="bind">
-
-    <!-- Navbar
-    ================================================== -->
-    <div class="navbar navbar-fixed-top ">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="brand" href="{{ url_for('home') }}">
-            <strong>
-              ShareI
-            </strong>
-          </a>
-          
-          <ul class="nav">
+<!-- Navbar
+================================================== -->
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="brand" href="{{ url_for('home') }}">ShareI</a>
+      <div class="nav-collapse collapse">
+        <ul class="nav">
             <li>
-              <img src="/static/img/logo-ch.png" width="80">
+              <img src="/static/img/logo-ch.png" width="80" style="margin-top:4px">
             </li>
             <li>
-              <a href="{{ url_for('home') }}">
-                首页
-              </a>
+              <a href="{{ url_for('home') }}"><font size="4">首页</font></a>
             </li>
             <li>
-              <a href="{{ url_for('show_littleleafs') }}">
-                小叶子
-              </a>
+              <a href="{{ url_for('show_littleleafs') }}"><font size="4">小叶子</font></a>
             </li>
             <li>
-              <a href="{{ url_for('show_bigleafs') }}">
-                大叶子
-              </a>
+              <a href="{{ url_for('show_bigleafs') }}"><font size="4">大叶子</font></a>
             </li>
             <li>
-              <a href="{{ url_for('about') }}">
-                关于我们
-              </a>
+              <a href="{{ url_for('about') }}"><font size="4">关于我们</font></a>
             </li>
           </ul>
           <ul class="nav pull-right">
             {% if session.logged_in %}
-              <li><a>Welcome! {{ session['bleaf_name'] }}</a></li>
-              <li><a href="{{ url_for('logout') }}">注销</a></li>
+              <li><a><font size="4">欢迎！ {{ session['bleaf_name'] }}</font></a></li>
+              <li><a href="{{ url_for('logout') }}"><font size="4">注销</font></a></li>
             {% else %}
-              <li><a href="{{ url_for('register') }}">注册</a></li>
-              <li><a href="{{ url_for('login') }}">登录</a></li>
+              <li><a href="{{ url_for('register') }}"><font size="4">注册</font></a></li>
+              <li><a href="{{ url_for('login') }}"><font size="4">登录</font></a></li>
             {% endif %}
           </ul>
-        </div>
       </div>
     </div>
+  </div>
+</div>
+    
 
 
 <div class="container">
