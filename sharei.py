@@ -114,6 +114,13 @@ def home():
     else:
 	   return render_template('home.html')
 
+@app.route('/news/<news_id>')
+def show_news(news_id):
+    if int(news_id) == 1 :
+        return render_template('news1.html')
+    else:
+        return render_template('news2.html')
+
 @app.route('/about')
 def about():
 	return render_template('about.html')
