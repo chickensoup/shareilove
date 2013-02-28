@@ -197,8 +197,24 @@ def show_littleleafs():
     else:
         return render_template('littleleaf.html', error=error, littleleafs = littleleafs)
 
-@app.route('/littleleaf/<lleaf_id>')
+@app.route('/littleleaf/<lleaf_id>', methods=['GET', 'POST'])
 def show_littleleaf(lleaf_id):
+    error = None
+    if request.method == 'POST':
+        if not request.form['blogtitle']:
+            error = '请输入日志标题'
+        elif not request.form['blogtext']:
+            error = '请输入日志内容'
+        else:
+            db = get_db()
+            db.execute('insert into blog ( \
+                title, blogtext, bleaf_id, lleaf_id, createtime) \
+                values (?, ?, ?, ?, ?)', [request.form['blogtitle'], \
+                request.form['blogtext'], 1, 1, datetime.datetime.now()])
+            db.commit()
+            flash('日志提交成功！')
+            return redirect( url_for('show_littleleafs'))
+
     littleleaf = query_db('select * from lleaf where lleaf.lleaf_id = ?', [lleaf_id], one=True)
     if littleleaf is None:
         error = 'Invalid little leaf id'

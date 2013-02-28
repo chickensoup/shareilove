@@ -39,7 +39,7 @@
   <div class="container-fluid">
   <img src="/static/img/treehead.png" style="margin-left:31px;margin-bottom:-60px">
   </div>
-  {%if blogs %}
+  
   <div id="tl_container">
 
     <div class="tl_timeline_container">
@@ -47,6 +47,7 @@
         <div class="tl_plus"></div>
       </div>
     </div>
+    {%if blogs %}
       {% for blog in blogs %}
         <div class="tl_item">
           <div class="tl_inner">
@@ -62,6 +63,21 @@
           </div>
         </div>
       {% endfor %}
+      <div class="tl_item">
+        <div class="tl_inner">
+          <form action="add_blog" method=post>
+          <dl>
+          <dd><input type=text name=blogtitle>
+          <dd><textarea rows="10" name=blogtext></textarea>
+          <dd><input class="btn btn-primary" type=submit value='提交'>
+          </dl>
+          </form>
+        </div>
+      </div>
+
+
+
+
   </div>
   {% endif %}
 </div>
