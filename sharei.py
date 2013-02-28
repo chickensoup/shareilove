@@ -220,7 +220,7 @@ def show_littleleaf(lleaf_id):
         error = 'Invalid little leaf id'
         return render_template('littleleaf.html', error=error)
 
-    blogs = query_db('select * from blog where blog.lleaf_id = ?', [lleaf_id])
+    blogs = query_db('select * from blog where blog.lleaf_id = ? order by createtime desc', [lleaf_id])
     donaters = query_db('select donating.donableaf_id, bleaf.avatar, bleaf.uname from donating join bleaf on donating.donableaf_id = bleaf.bleaf_id where donating.donalleaf_id = ?', [lleaf_id])
 
     return render_template('littleleaf_timeline.html', littleleaf=littleleaf, blogs=blogs, donaters=donaters)
