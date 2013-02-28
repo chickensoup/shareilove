@@ -1,13 +1,15 @@
 ﻿from __future__ import with_statement
-import time, os, urllib, hashlib, socket
+import time, os, urllib, hashlib, socket, sys
 from sqlite3 import dbapi2 as sqlite3
 from hashlib import md5
 from datetime import datetime
 from flask import Flask, request, session, url_for, redirect, \
      render_template, abort, g, flash, _app_ctx_stack
 from werkzeug import check_password_hash, generate_password_hash, secure_filename
-import sys
 import datetime
+
+reload(sys) 
+sys.setdefaultencoding('utf8') 
 
 UPLOAD_FOLDER = 'static/avatar'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
@@ -203,8 +205,9 @@ def show_littleleaf(lleaf_id):
         return render_template('littleleaf.html', error=error)
 
     blogs = query_db('select * from blog where blog.lleaf_id = ?', [lleaf_id])
+    donaters = query_db('select donating.donableaf_id, bleaf.avatar, bleaf.uname from donating join bleaf on donating.donableaf_id = bleaf.bleaf_id where donating.donalleaf_id = ?', [lleaf_id])
 
-    return render_template('littleleaf_timeline.html', littleleaf=littleleaf, blogs=blogs)
+    return render_template('littleleaf_timeline.html', littleleaf=littleleaf, blogs=blogs, donaters=donaters)
 
 @app.route('/bigleaf')
 def show_bigleafs():

@@ -6,11 +6,14 @@
 
   <div class="row-fluid">
     <div class="span2">
-        <img src={{ bigleaf.avatar }}>
+        <img src={{ bigleaf.avatar }} class="img-rounded">
     </div>
     <div class="span6" style="text-align : left;background-color:#FFFFFF; padding-left:20">
       <h4>昵称：{{bigleaf.uname}}</h4>
       <p>性别：{{bigleaf.sex}}<br>
+        {% if bigleaf.rrurl %}<br>
+        <a  href={{ bigleaf.rrurl }}><img src="/static/img/rr.png" class="img-rounded"></a>
+        {% endif %}
     </div>
   </div><br>
 

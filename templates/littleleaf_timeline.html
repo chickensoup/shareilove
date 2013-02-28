@@ -16,8 +16,26 @@
       {{littleleaf.lleafinfo}}<br>
     </div>
   </div><br>
-  <hr>
+  
 
+  {% if donaters %}
+  <hr>
+  <div class="row-fluid">
+    <div class="span9">
+      <h4>正在资助她的大叶子</h4>
+      <div class="row-fluid">
+      {% for donater in donaters %}
+        <div class="span2">
+          <img src={{donater.avatar}} style="width:80px" class="img-rounded">
+          <a href="{{ url_for('show_bigleaf', bleaf_id=donater.donableaf_id) }}" target="_blank"><h4>{{donater.uname}}</h4></a>
+        </div>
+    {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <hr>
   <div class="container-fluid">
   <img src="/static/img/treehead.png" style="margin-left:31px;margin-bottom:-60px">
   </div>
