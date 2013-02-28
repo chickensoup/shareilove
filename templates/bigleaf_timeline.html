@@ -4,18 +4,15 @@
   {% if error %}<p class="alert alert-error"><strong>Error:</strong> {{ error }}
   {% endif %}
 
-  <div class="row">
-    <div class="row">
-    {{bigleaf.bleaf_id}}
-    {{bigleaf.uname}}
-    {{bigleaf.sex}}
-    <img src={{bigleaf.avatar}}>
-    {{bigleaf.rrurl}}
-    {{bigleaf.sinawburl}}
-    {{bigleaf.qqwburl}}
-    {{bigleaf.createtime}}
+  <div class="row-fluid">
+    <div class="span2">
+        <img src={{ bigleaf.avatar }}>
     </div>
-  </div>
+    <div class="span6" style="text-align : left;background-color:#FFFFFF; padding-left:20">
+      <h4>昵称：{{bigleaf.uname}}</h4>
+      <p>性别：{{bigleaf.sex}}<br>
+    </div>
+  </div><br>
 
 
 {% endblock %}

@@ -2,21 +2,25 @@
 {% block title %}Little Leaf{% endblock %}
 
 {% block body %}
-
 <div class="container-fluid">
   {% if error %}<p class="alert alert-error"><strong>Error:</strong> {{ error }}
   {% endif %}
 
-  <div class="row">
-    <div class="row">
-    {{littleleaf.lleaf_id}}
-    {{littleleaf.name}}
-    {{littleleaf.sex}}
-    {{littleleaf.lleafinfo}}
-    {{littleleaf.status}}
+  <div class="row-fluid">
+    <div class="span6">
+        <img src={{ littleleaf.avatar }}>
     </div>
-  </div>
+    <div class="span6" style="text-align : left;background-color:#FFFFFF; padding-left:20">
+      <h4>昵称：{{littleleaf.name}}</h4>
+      <p>性别：{{littleleaf.sex}}<br>
+      {{littleleaf.lleafinfo}}<br>
+    </div>
+  </div><br>
+  <hr>
 
+  <div class="container-fluid">
+  <img src="/static/img/treehead.png" style="margin-left:31px;margin-bottom:-60px">
+  </div>
   {%if blogs %}
   <div id="tl_container">
 
@@ -25,17 +29,25 @@
         <div class="tl_plus"></div>
       </div>
     </div>
-
-    
       {% for blog in blogs %}
         <div class="tl_item">
           <div class="tl_inner">
-            <h2><a href="{{ url_for('show_blog', blog_id=blog.blog_id) }}" target="_blank">{{blog.title}}</a></h2>
-            <p>{{blog.blogtext}}</p>
+            {% if blog.title == "image" %}
+              <p><div style="height:200px">
+                <img src= {{blog.blogtext }} style="height:200px">
+              </div>
+            </p>
+            {% else %}
+              <h2><a href="{{ url_for('show_blog', blog_id=blog.blog_id) }}" target="_blank">{{blog.title}}</a></h2>
+              <p>{{blog.blogtext}}</p>
+            {% endif %}
           </div>
         </div>
       {% endfor %}
   </div>
   {% endif %}
+</div>
+<div class="container-fluid">
+<img src="/static/img/treeroot.png" style="margin-left:29px">
 </div>
 {% endblock %}

@@ -6,20 +6,16 @@
     {% if error %}<p class="alert alert-error"><strong>Error:</strong> {{ error }}
     {% endif %}
     {% for bigleaf in bigleafs %}
-    <div class = "row">
-      <div class="row">
-        {{bigleaf.bleaf_id}}
-        {{bigleaf.uname}}
-        {{bigleaf.sex}}
-        <img src={{bigleaf.avatar}}>
-        {{bigleaf.rrurl}}
-        {{bigleaf.sinawburl}}
-        {{bigleaf.qqwburl}}
-        {{bigleaf.createtime}}
-        <a href="{{ url_for('show_bigleaf', bleaf_id=bigleaf.bleaf_id) }}" target="_blank">See</a>
-      </div>
+    <div class="row-fluid">
+    <div class="span2">
+        <img src={{ bigleaf.avatar }}>
     </div>
-    {% endfor %}
+    <div class="span6" style="text-align : left;background-color:#FFFFFF; padding-left:20">
+      <a href="{{ url_for('show_bigleaf', bleaf_id=bigleaf.bleaf_id) }}" target="_blank"><h4>昵称：{{bigleaf.uname}}</h4></a>
+      <p>性别：{{bigleaf.sex}}<br>
+    </div>
+  </div><br>
+{% endfor %}
 
 
 {% endblock %}

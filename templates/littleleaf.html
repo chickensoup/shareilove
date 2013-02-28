@@ -2,56 +2,64 @@
 {% block title %}Little Leaf{% endblock %}
 
 {% block body %}
-<div class="hero-unit">
+{% if error %}<p class="alert alert-error"><strong>Error:</strong> {{ error }}
+{% endif %}
+
+<div class="row-fluid">
   <h3>得到捐助正在茁壮成长的小叶子</h3>
-    <li>
-      <a href="{{ url_for('add_littleleaf') }}">提供小叶子信息</a>
-    </li>
-    {% if error %}<p class="alert alert-error"><strong>Error:</strong> {{ error }}
-    {% endif %}
+   
     {% for littleleaf in littleleafs %}
-    <li>
-      {{littleleaf.name}}
-      {{littleleaf.sex}}
-      {{littleleaf.lleafinfo}}
-        <a href="{{ url_for('show_littleleaf', lleaf_id=littleleaf.lleaf_id) }}" target="_blank">See</a>
-      </li>
+      {% if littleleaf.status == 3 %}
+        <div class="row-fluid">
+        <div class="span4">
+            <img src={{ littleleaf.avatar }}>
+        </div>
+        <div class="span6" style="text-align : left;background-color:#FFFFFF; padding-left:20">
+          <a href="{{ url_for('show_littleleaf', lleaf_id=littleleaf.lleaf_id) }}" target="_blank"><h4>昵称：{{littleleaf.name}}</h4></a>
+          <p>性别：{{littleleaf.sex}}<br>
+          {{littleleaf.lleafinfo}}<br>
+        </div>
+      </div><br>
+      {% endif %}
     {% endfor %}
 </div>
-<div class="hero-unit">
+<hr>
+<div class="row-fluid">
   <h3>已经有大叶子申请捐助的小叶子</h3>
-    <li>
-      <a href="{{ url_for('add_littleleaf') }}">提供小叶子信息</a>
-    </li>
-    {% if error %}<p class="alert alert-error"><strong>Error:</strong> {{ error }}
-    {% endif %}
     {% for littleleaf in littleleafs %}
-    <li>
-      {{littleleaf.name}}
-      {{littleleaf.sex}}
-      {{littleleaf.lleafinfo}}
-        <a href="{{ url_for('show_littleleaf', lleaf_id=littleleaf.lleaf_id) }}" target="_blank">See</a>
-      </li>
+      {% if littleleaf.status == 2%}
+       <div class="row-fluid">
+        <div class="span4">
+            <img src={{ littleleaf.avatar }}>
+        </div>
+        <div class="span6" style="text-align : left;background-color:#FFFFFF; padding-left:20">
+          <a href="{{ url_for('show_littleleaf', lleaf_id=littleleaf.lleaf_id) }}" target="_blank"><h4>昵称：{{littleleaf.name}}</h4></a>
+          <p>性别：{{littleleaf.sex}}<br>
+          {{littleleaf.lleafinfo}}<br>
+        </div>
+      </div><br>
+      {% endif %}
     {% endfor %}
 </div>
-<div class="hero-unit">
+<hr>
+<div class="row-fluid">
   <h3>等待捐助的小叶子</h3>
-    <li>
-      <a href="{{ url_for('add_littleleaf') }}">提供小叶子信息</a>
-    </li>
-    {% if error %}<p class="alert alert-error"><strong>Error:</strong> {{ error }}
-    {% endif %}
     {% for littleleaf in littleleafs %}
-    <li>
-      {{littleleaf.lleaf_id}}
-      {{littleleaf.name}}
-      {{littleleaf.sex}}
-      {{littleleaf.lleafinfo}}
-      {{littleleaf.status}}
-        <a href="{{ url_for('show_littleleaf', lleaf_id=littleleaf.lleaf_id) }}" target="_blank">See</a>
-      </li>
+      {% if littleleaf.status == 1%}
+      <div class="row-fluid">
+        <div class="span4">
+            <img src={{ littleleaf.avatar }}>
+        </div>
+        <div class="span6" style="text-align : left;background-color:#FFFFFF; padding-left:20">
+          <a href="{{ url_for('show_littleleaf', lleaf_id=littleleaf.lleaf_id) }}" target="_blank"><h4>昵称：{{littleleaf.name}}</h4></a>
+          <p>性别：{{littleleaf.sex}}<br>
+          {{littleleaf.lleafinfo}}<br>
+        </div>
+      </div><br>
+      {% endif %}
     {% endfor %}
 </div>
+<hr>
 
-
+<a href="{{ url_for('add_littleleaf') }}" class="btn btn-large btn-primary">提供小叶子信息</a>
 {% endblock %}
