@@ -41,14 +41,13 @@
   </div>
   
   <div id="tl_container">
-
     <div class="tl_timeline_container">
       <div class="tl_timeline">
-        <div class="tl_plus"></div>
+        <div class="tl_plus">
+        </div>
       </div>
-    </div>
-    {%if blogs %}
-      {% for blog in blogs %}
+      {%if blogs %}
+        {% for blog in blogs %}
         <div class="tl_item">
           <div class="tl_inner">
             {% if blog.title == "image" %}
@@ -62,8 +61,11 @@
             {% endif %}
           </div>
         </div>
-      {% endfor %}
-      <div class="tl_item">
+        {% endfor %}
+      {% endif %}
+
+      {% if littleleaf.status == 3 %}
+        <div class="tl_item">
         <div class="tl_inner">
           <form action="add_blog" method=post>
           <dl>
@@ -74,14 +76,12 @@
           </form>
         </div>
       </div>
-
-
-
-
+      {% endif %}
+    </div>
   </div>
-  {% endif %}
-</div>
-<div class="container-fluid">
-<img src="/static/img/treeroot.png" style="margin-left:29px">
+
+  <div class="container-fluid">
+  <img src="/static/img/treeroot.png" style="margin-left:9px">
+  </div>
 </div>
 {% endblock %}
