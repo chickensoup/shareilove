@@ -7,7 +7,6 @@
 
 <div class="row-fluid">
   <h3>得到捐助正在茁壮成长的小叶子</h3>
-   
     {% for littleleaf in littleleafs %}
       {% if littleleaf.status == 3 %}
         <div class="row-fluid">
@@ -33,6 +32,16 @@
             <img src={{ littleleaf.avatar }}>
         </div>
         <div class="span6" style="text-align : left;background-color:#FFFFFF; padding-left:20">
+          <div class="btn-group">
+            <button class="btn dropdown-toggle" data-toggle="dropdown">我想申请捐助这枚小叶子！<span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li><div style="text-align:center">捐助模式</a></div></li>
+              <li class="divider"></li>
+              <li><a href="#">我想和我的亲爱的一起捐助他!</a></li>
+              <li><a href="#">我想和我的好朋友一起捐助他!</a></li>
+              <li><a href="#">我欢迎陌生人跟我一起捐助他！</a></li>
+            </ul>
+          </div><!-- /btn-group -->
           <h4>昵称：<a href="{{ url_for('show_littleleaf', lleaf_id=littleleaf.lleaf_id) }}" target="_blank">{{littleleaf.name}}</a></h4>
           <p>性别：{{littleleaf.sex}}<br>
           {{littleleaf.lleafinfo}}<br>
@@ -51,6 +60,16 @@
             <img src={{ littleleaf.avatar }}>
         </div>
         <div class="span6" style="text-align : left;background-color:#FFFFFF; padding-left:20">
+          <div class="btn-group">
+            <button class="btn dropdown-toggle" data-toggle="dropdown">我想申请捐助这枚小叶子！<span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li><div style="text-align:center">捐助模式</a></div></li>
+              <li class="divider"></li>
+              <li><a href="#">我想和我的亲爱的一起捐助他!</a></li>
+              <li><a href="#">我想和我的好朋友一起捐助他!</a></li>
+              <li><a href="#">我欢迎陌生人跟我一起捐助他！</a></li>
+            </ul>
+          </div><!-- /btn-group -->
           <h4>昵称：<a href="{{ url_for('show_littleleaf', lleaf_id=littleleaf.lleaf_id) }}" target="_blank">{{littleleaf.name}}</a></h4>
           <p>性别：{{littleleaf.sex}}<br>
           {{littleleaf.lleafinfo}}<br>
