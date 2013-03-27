@@ -281,16 +281,18 @@ def add_littleleaf():
     """Add new little leaf"""
     error = None
     if request.method == 'POST':
-        if not request.form['name']:
+        if not request.form['lname']:
             error = '请输入小叶子的名字'
-        elif not request.form['lleafinfo']:
-            error = '请输入小叶子的信息'
         else:
             db = get_db()
-            db.execute('insert into lleaf ( \
-                name, sex, lleafinfo, status) \
-                values (?, ?, ?, ?)', [request.form['name'], \
-                request.form['sex'], request.form['lleafinfo'], 0])
+            db.execute('insert into lleaf (lname, lnickname, gender, nationality, age, grade, bday, constellation, school, homeaddress, phone, homeinfo, linfo, \
+                        ginfo, gadvice, gname, gschool, gbackground, ginfosource, grr, gweibo, gkaixin, status, createtime) \
+                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', \
+                [request.form['lname'], request.form['lnickname'], request.form['gender'], request.form['nationality'], request.form['age'],\
+                request.form['grade'], request.form['bday'], request.form['constellation'], \
+                request.form['school'], request.form['homeaddress'], request.form['phone'], request.form['homeinfo'], \
+                request.form['linfo'], request.form['ginfo'], request.form['gadvice'], request.form['gname'], \
+                request.form['gschool'], request.form['gbackground'], request.form['ginfosource'], request.form['grr'], request.form['gweibo'], request.form['gkaixin'], 0, datetime.datetime.now()])
             db.commit()
             flash('Little leaf added!')
             return redirect(url_for('show_littleleafs'))
@@ -300,4 +302,4 @@ def add_littleleaf():
 if __name__ == '__main__':
     #app.debug = True
     #app.run()
-    app.run('0.0.0.0', port=80)
+    app.run('0.0.0.0', port=8080)
