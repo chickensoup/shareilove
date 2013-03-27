@@ -3,32 +3,143 @@
 
   <div class="container-fluid">
   {% if error %}<p class="alert alert-error"><strong>Error:</strong> {{ error }}{% endif %}
-  <div class="row-fluid">
-    <div class="span8">
-      <img src="/static/img/add_littleleaf.jpg">
-    </div>
-    <div class="span4">
-      <h2>提供小叶子信息</h2>
-      <p>您所提供到信息将会在经过我们审核之后公布</p>
-      <form action="" method=post>
-        <dl>
-          <dt>姓名:
-          <dd><input type=text name=name>
-          <dt>性别:
-          <dd>
-            <select name=sex>
-               <option value="男">男</option>
-               <option value="女">女</option>
-               <option value="保密">保密</option>
-            </select>
-          <dt>信息:
-          <dd><textarea rows="10" name=lleafinfo></textarea>
 
-          <dd><input class="btn btn-large btn-primary" type=submit value='提交'>
-        </dl>
-      </form>
-    </div>
-  </div>
+  
+<form action="" method=post>
+<table class="table table-condensed">
+  <tr class="success">
+    <td colspan="4" width="830">
+      <h3>小叶子基本信息</h3>
+    </td>
+  </tr>
+<tr class="success">
+  <td>
+    <dt>姓名:
+    <input type=text name=name style="width:100px">
+  </td>
+  <td>
+    <dt>昵称:
+    <input type=text name=nickname style="width:100px">
+  </td>
+  <td>
+    <dt>性别:
+    <input type=text name=gender style="width:100px">
+  </td>
+  <td>
+    <dt>民族:
+    <input type=text name=nationality style="width:100px">
+  </td>
+</tr>
+<tr class="success">
+  <td>
+    <dt>年龄:
+    <input type=text name=age style="width:100px">
+  </td>
+  <td>
+    <dt>就读年级:
+    <input type=text name=grade style="width:100px">
+  </td>
+  <td>
+    <dt>生日:
+    <input type=text name=bday style="width:100px">
+  </td>
+  <td>
+    <dt>星座:
+    <input type=text name=constellation style="width:100px">
+  </td>
+</tr>
+<tr class="success">
+  <td colspan="4">
+    <dt>就读学校：
+    <input type=text name=school>
+  </td>
+</tr>
+<tr class="success">
+  <td>
+    <dt>家庭住址：
+    <input type=text name=homeaddress>
+  </td>
+  <td>
+    <dt>联系电话:
+    <input type=text name=phone>
+  </td>
+</tr>
+<tr class="success">
+  <td>
+    <dt>家庭情况：
+    <input type=text name=homeinfo>
+  </td>
+</tr>
+<tr class="success">
+  <td>
+    <dt>个人基本情况：
+    <input type=text name=lleafinfo>
+  </td>
+</tr>
+<tr class="success">
+  <td>
+    <h3>介绍人描述</h3>
+  </td>
+</tr>
+<tr class="success">
+  <td>
+    <textarea rows="10" name=ginfo></textarea>
+  </td>
+</tr>
+<tr class="success">
+  <td colspan="4">
+    <dt>介绍人捐助建议：
+    <input type=text name=gadvice>
+  </td>
+</tr>
+<tr class="success">
+  <td >
+  <dt>介绍人信息：
+  </td>
+</tr>
+<tr class="success">
+  <td>
+    <dt>姓名：
+    <input type=text name=gname>
+  </td>
+  <td>
+    <dt>毕业/就读院校：
+    <input type=text name=gschool>
+  </td>
+</tr>
+<tr class="success">
+  <td >
+    <dt>教育公益背景：
+    <input type=text name=gbackground>
+  </td>
+  <td>
+    <dt>信息来源：
+    <input type=text name=ginfosource>
+  </td>
+</tr>
+<tr class="success">
+  <td colspan="4" width="830">
+    <h3>可供公开的SNS信息</h3>
+  </td>
+</tr>
+<tr class="success">
+  <td >
+    <dt>人人网：
+    <input type=text name=grr>
+  </td>
+  <td >
+    <dt>微博：
+    <input type=text name=gweibo>
+  </td>
+  <td >
+    <dt>开心网：
+    <input type=text name=gkaixin>
+  </td>
+</tr>
+</table>
+<dd><input class="btn btn-large btn-primary" type=submit value='提交'>
+</form>
+
 </div>
 
 {% endblock %}
