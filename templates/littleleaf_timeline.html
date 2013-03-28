@@ -11,9 +11,9 @@
         <img src={{ littleleaf.avatar }} style="width:200px" class="img-rounded">
     </div>
     <div class="span6" style="text-align : left;background-color:#FFFFFF; padding-left:20">
-      <h4>昵称：{{littleleaf.gnickname}}</h4>
+      <h4>昵称：{{littleleaf.lnickname}}</h4>
       <p>性别：{{littleleaf.gender}}<br>
-      {{littleleaf.ginfo}}<br>
+      介绍人描述：{{littleleaf.ginfo}}<br>
     </div>
   </div><br>
 
@@ -21,13 +21,29 @@
   {% if littleleaf.status == 1 %}
     <a class="btn" href="{{ url_for('raise_leaf', lleaf_id=littleleaf.lleaf_id) }}">发起捐助</a><br>
   {% elif littleleaf.status == 2 %}
-    <p>已经由
+    {% if session['logged_in'] %}
+      {% if session.bleaf_id == raiser.bleaf_id  %}
+        <p>我已经发起对这枚小叶子的捐助活动<a href="{{ url_for('show_bigleaf', bleaf_id=raiser.bleaf_id) }}" target="_blank"><h4>管理我的申请和捐助</h4></a><br>
+          {% if donaters %}
+            同时申请捐助的还有
+            {% for donater in donaters %}
+              <div class="span2">
+                <img src={{donater.avatar}} style="width:80px" class="img-rounded">
+                <a href="{{ url_for('show_bigleaf', bleaf_id=donater.bleaf_id) }}" target="_blank"><h4>{{donater.uname}}</h4></a>
+              </div>
+            {% endfor %}
+          {% else %}
+            目前没有其他人申请捐助
+          {% endif %}
+      {% endif %}
+    {% else %}
+      <p>已经由
       <div class="span2">
         <img src={{raiser.avatar}} style="width:80px" class="img-rounded">
         <a href="{{ url_for('show_bigleaf', bleaf_id=raiser.bleaf_id) }}" target="_blank"><h4>{{raiser.uname}}</h4></a>
       </div>
       发起捐助，
-      {% if donaters%}
+      {% if donaters %}
         同时申请捐助的还有
         {% for donater in donaters %}
           <div class="span2">
@@ -40,6 +56,7 @@
       {% endif %}
       <br>
     <a class="btn" href="{{ url_for('raise_leaf', lleaf_id=littleleaf.lleaf_id) }}">申请捐助</a><br>
+    {% endif %}
   {% elif littleleaf.status == 3 %}
     <p>这些大叶子正在捐助{% if littleleaf.gender == '男' %}他 {% else %}她{% endif %}
       <div class="span2">
