@@ -25,7 +25,7 @@
       {% if session.bleaf_id == raiser.bleaf_id  %}
         <p>我已经发起对这枚小叶子的捐助活动<a href="{{ url_for('show_bigleaf', bleaf_id=raiser.bleaf_id) }}" target="_blank"><h4>管理我的申请和捐助</h4></a><br>
           {% if donaters %}
-            同时申请捐助的还有
+            已经申请加入捐助的还有
             {% for donater in donaters %}
               <div class="span2">
                 <img src={{donater.avatar}} style="width:80px" class="img-rounded">
@@ -33,7 +33,7 @@
               </div>
             {% endfor %}
           {% else %}
-            目前没有其他人申请捐助
+            目前没有其他人申请加入捐助
           {% endif %}
       {% endif %}
     {% else %}
