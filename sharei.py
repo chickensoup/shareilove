@@ -209,7 +209,9 @@ def show_littleleaf(lleaf_id):
         error = 'Invalid little leaf id'
         return render_template('littleleaf.html', error=error)
 
-    blogs = query_db('select * from blog where blog.lleaf_id = ? order by createtime desc', [lleaf_id])
+    blogs = query_db('select blog.blog_id as blog_id, blog.bleaf_id as bleaf_id, blog.lleaf_id as lleaf_id, blog.title as title, \
+            blog.blogtext as blogtext, bleaf.avatar as avatar, bleaf.uname as uname , blog.createtime as createtime \
+            from blog join bleaf on blog.bleaf_id = bleaf.bleaf_id where blog.lleaf_id = ? order by blog.createtime desc', [lleaf_id])
     donaters = query_db('select donating.bleaf_id, bleaf.avatar, bleaf.uname from donating join bleaf on donating.bleaf_id = bleaf.bleaf_id where donating.lleaf_id = ?', [lleaf_id])
     raiser = query_db('select raising.bleaf_id as bleaf_id, bleaf.avatar as avatar, bleaf.uname as uname from raising join bleaf on raising.bleaf_id = bleaf.bleaf_id where raising.lleaf_id = ?', [lleaf_id], True)
     applyers = query_db('select applying.bleaf_id, bleaf.avatar, bleaf.uname from applying join bleaf on applying.bleaf_id = bleaf.bleaf_id where applying.lleaf_id = ?', [lleaf_id])

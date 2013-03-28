@@ -21,12 +21,13 @@
   <div class="row-fluid">
   {% if littleleaf.status == 1 %} 
     <a class="btn" href="{{ url_for('raise_leaf', lleaf_id=littleleaf.lleaf_id) }}">发起捐助</a><br>
+    <a href="{{ url_for('show_bigleaf', bleaf_id=session.bleaf_id) }}" target="_blank"><h4>管理我的申请和捐助</h4></a><br>
   {% elif littleleaf.status == 2 %} 
     {% if session.bleaf_id == raiser.bleaf_id  %} 
       <p>我已经发起对这枚小叶子的捐助活动
         <a href="{{ url_for('show_bigleaf', bleaf_id=raiser.bleaf_id) }}" target="_blank"><h4>管理我的申请和捐助</h4></a><br>
         {% if applyers %}
-          已经申请加入捐助的还有
+          已经申请加入捐助
           {% for applyer in applyers %}
             <div class="span2">
               <img src={{applyer.avatar}} style="width:80px" class="img-rounded">
@@ -38,17 +39,15 @@
         {% endif %}
       </p>
     {% elif inapplyers %} 
-      <p>已经由
+      <p>捐助发起者：</p>
         <div class="span2">
           <img src={{raiser.avatar}} style="width:80px" class="img-rounded">
           <a href="{{ url_for('show_bigleaf', bleaf_id=raiser.bleaf_id) }}" target="_blank"><h4>{{raiser.uname}}</h4></a>
         </div>
-        发起捐助
-      </p><br>
       <p>我已经申请加入捐助</p>
       <p>
       {% if applyers %}
-        申请加入捐助的人：
+        申请加入捐助的人：</p>
         {% for applyer in applyers %}
           <div class="span2">
             <img src={{applyer.avatar}} style="width:80px" class="img-rounded">
@@ -56,18 +55,16 @@
           </div>
         {% endfor %}
       {% endif %}
-      </p>
+      <a href="{{ url_for('show_bigleaf', bleaf_id=session.bleaf_id) }}" target="_blank"><h4>管理我的申请和捐助</h4></a><br>
     {% else %}
-      <p>已经由
-        <div class="span2">
-          <img src={{raiser.avatar}} style="width:80px" class="img-rounded">
-          <a href="{{ url_for('show_bigleaf', bleaf_id=raiser.bleaf_id) }}" target="_blank"><h4>{{raiser.uname}}</h4></a>
-        </div>
-        发起捐助
-      </p><br>
+        <p>捐助发起者：</p>
+            <div class="span2">
+              <img src={{raiser.avatar}} style="width:80px" class="img-rounded">
+              <a href="{{ url_for('show_bigleaf', bleaf_id=raiser.bleaf_id) }}" target="_blank"><h4>{{raiser.uname}}</h4></a>
+            </div>
       <p>
       {% if applyers %}
-        申请加入捐助的人：
+        申请加入捐助的人：</p>
         {% for applyer in applyers %}
           <div class="span2">
             <img src={{applyer.avatar}} style="width:80px" class="img-rounded">
@@ -75,8 +72,8 @@
           </div>
         {% endfor %}
       {% endif %}
-      </p>
       <a class="btn" href="{{ url_for('raise_leaf', lleaf_id=littleleaf.lleaf_id) }}">申请加入捐助</a><br>
+      <a href="{{ url_for('show_bigleaf', bleaf_id=session.bleaf_id) }}" target="_blank"><h4>管理我的申请和捐助</h4></a><br>
     {% endif %}
   {% elif littleleaf.status == 3 %}
     <p>这些大叶子正在捐助{% if littleleaf.gender == '男' %}他 {% else %}她{% endif %}
@@ -87,6 +84,7 @@
         </div>
       {% endfor %}
       <br>
+    <a href="{{ url_for('show_bigleaf', bleaf_id=session.bleaf_id) }}" target="_blank"><h4>管理我的申请和捐助</h4></a><br>
   {% endif %}
 </div>
   
@@ -121,13 +119,22 @@
         <div class="tl_item">
           <div class="tl_inner">
             {% if blog.title == "image" %}
-              <p><div style="height:200px">
-                <img src= {{blog.blogtext }} style="height:200px">
-              </div>
-            </p>
+              <p>
+               <a href="{{ url_for('show_bigleaf', bleaf_id=blog.bleaf_id) }}" target="_blank">
+                  <img src={{blog.avatar}} style="width:40px" class="img-rounded">
+                </a>
+                发布于：{{blog.createtime}}
+                <div style="height:200px">
+                  <img src= {{blog.blogtext }} style="height:200px">
+                </div>
+              </p>
             {% else %}
-              <h2><a href="{{ url_for('show_blog', blog_id=blog.blog_id) }}" target="_blank">{{blog.title}}</a></h2>
-              <p>{{blog.blogtext}}</p>
+                <a href="{{ url_for('show_bigleaf', bleaf_id=blog.bleaf_id) }}" target="_blank">
+                  <img src={{blog.avatar}} style="width:40px" class="img-rounded">
+                </a>
+                发布于：{{blog.createtime}}
+                <h2><a href="{{ url_for('show_blog', blog_id=blog.blog_id) }}" target="_blank">{{blog.title}}</a></h2>
+                <p>{{blog.blogtext}}</p>
             {% endif %}
           </div>
         </div>
