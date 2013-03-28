@@ -5,9 +5,25 @@ drop table if exists blog;
 drop table if exists applying;
 drop table if exists donating;
 
+CREATE TABLE raising (
+	raise_id integer primary key autoincrement,
+	raisebleaf_id integer,
+	raiselleaf_id integer,
+	createtime TIMESTAMP default (datetime('now', 'localtime'))
+);
+
 CREATE TABLE applying (
+	apply_id integer primary key autoincrement,
 	appbleaf_id integer,
-	applleaf_id integer
+	applleaf_id integer,
+	createtime TIMESTAMP default (datetime('now', 'localtime'))
+);
+
+CREATE TABLE donating (
+	donate_id integer primary key autoincrement,
+	donableaf_id integer,
+	donalleaf_id integer,
+	createtime TIMESTAMP default (datetime('now', 'localtime'))
 );
 
 CREATE TABLE bleaf (avatar TEXT, bleaf_id integer PRIMARY KEY, email text, uname text, sex text, ulevel integer, password text, rrurl text, sinawburl text, qqwburl text, createtime TIMESTAMP);
@@ -24,17 +40,34 @@ CREATE TABLE blog (
 	createtime TIMESTAMP default (datetime('now', 'localtime'))
 );
 
-CREATE TABLE donating (
-	donableaf_id integer,
-	donalleaf_id integer
-);
+
 
 CREATE TABLE lleaf (
 	lleaf_id integer primary key autoincrement,
 	avatar text,
-	name text not null,
-	sex text not null,
-	lleafinfo text not null,
+	nickavatar text,
+	lname text,
+	lnickname text,
+	gender text,
+	nationality text,
+	age text,
+	grade text,
+	bday text,
+	constellation text,
+	school text,
+	homeaddress text,
+	phone text,
+	homeinfo text,
+	linfo text,
+	ginfo text,
+	gadvice text,
+	gname text,
+	gschool text,
+	gbackground text,
+	ginfosource text,
+	grr text,
+	gweibo text,
+	gkaixin text,
 	status integer not null,
 	createtime TIMESTAMP default (datetime('now', 'localtime'))
 );

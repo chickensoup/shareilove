@@ -90,6 +90,11 @@ def get_user_id(email):
                   [email], one=True)
     return rv[0] if rv else None
 
+def get_lleaf_id(lleaf_id):
+    rv = query_db('select lleaf_id from lleaf where lleaf_id = ?',
+                  [lleaf_id], one=True)
+    return rv[0] if rv else None
+
 
 def format_datetime(timestamp):
     """Format a timestamp for display."""
@@ -221,9 +226,27 @@ def show_littleleaf(lleaf_id):
         return render_template('littleleaf.html', error=error)
 
     blogs = query_db('select * from blog where blog.lleaf_id = ? order by createtime desc', [lleaf_id])
-    donaters = query_db('select donating.donableaf_id, bleaf.avatar, bleaf.uname from donating join bleaf on donating.donableaf_id = bleaf.bleaf_id where donating.donalleaf_id = ?', [lleaf_id])
+    donaters = query_db('select donating.bleaf_id, bleaf.avatar, bleaf.uname from donating join bleaf on donating.bleaf_id = bleaf.bleaf_id where donating.lleaf_id = ?', [lleaf_id])
+    raiser = query_db('select raising.bleaf_id as bleaf_id, bleaf.avatar as avatar, bleaf.uname as uname from raising join bleaf on raising.bleaf_id = bleaf.bleaf_id where raising.lleaf_id = ?', [lleaf_id], True)
+    applyers = query_db('select applying.bleaf_id, bleaf.avatar, bleaf.uname from applying join bleaf on applying.bleaf_id = bleaf.bleaf_id where applying.lleaf_id = ?', [lleaf_id])
 
-    return render_template('littleleaf_timeline.html', littleleaf=littleleaf, blogs=blogs, donaters=donaters)
+    return render_template('littleleaf_timeline.html', littleleaf=littleleaf, blogs=blogs, donaters=donaters, raiser=raiser, applyers=applyers)
+
+@app.route('/littleleaf/<lleaf_id>/raise')
+def raise_leaf(lleaf_id):
+    """Adds the current user as raise of the given user."""
+    if not 'logged_in' in session:
+        abort(401)
+    whom_id = get_lleaf_id(lleaf_id)
+    if whom_id is None:
+        abort(404)
+    db = get_db()
+    db.execute('insert into raising (bleaf_id, lleaf_id, createtime) values (?, ?, ?)', [ int(session['bleaf_id']), int(lleaf_id), datetime.datetime.now() ] )
+    db.commit()
+    db.execute('update lleaf set status = 2 where lleaf.lleaf_id = lleaf_id')
+    db.commit()
+    flash('You are now raising a donation of  "%s"' % whom_id)
+    return redirect(url_for('show_littleleaf', lleaf_id=lleaf_id))
 
 @app.route('/bigleaf')
 def show_bigleafs():
@@ -302,4 +325,4 @@ def add_littleleaf():
 if __name__ == '__main__':
     #app.debug = True
     #app.run()
-    app.run('0.0.0.0', port=80)
+    app.run('0.0.0.0', port=8080)

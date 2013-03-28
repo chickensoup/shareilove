@@ -6,138 +6,74 @@
 
   
 <form action="" method=post>
-<table class="table table-condensed">
-  <tr class="success">
-    <td colspan="4" width="830">
-      <h3>小叶子基本信息</h3>
-    </td>
-  </tr>
-<tr class="success">
-  <td>
-    <dt>姓名:
-    <input type=text name=lname style="width:100px">
-  </td>
-  <td>
-    <dt>昵称:
-    <input type=text name=lnickname style="width:100px">
-  </td>
-  <td>
-    <dt>性别:
-    <input type=text name=gender style="width:100px">
-  </td>
-  <td>
-    <dt>民族:
-    <input type=text name=nationality style="width:100px">
-  </td>
-</tr>
-<tr class="success">
-  <td>
-    <dt>年龄:
-    <input type=text name=age style="width:100px">
-  </td>
-  <td>
-    <dt>就读年级:
-    <input type=text name=grade style="width:100px">
-  </td>
-  <td>
-    <dt>生日:
-    <input type=text name=bday style="width:100px">
-  </td>
-  <td>
-    <dt>星座:
-    <input type=text name=constellation style="width:100px">
-  </td>
-</tr>
-<tr class="success">
-  <td colspan="4">
-    <dt>就读学校：
-    <input type=text name=school>
-  </td>
-</tr>
-<tr class="success">
-  <td>
-    <dt>家庭住址：
-    <input type=text name=homeaddress>
-  </td>
-  <td>
-    <dt>联系电话:
-    <input type=text name=phone>
-  </td>
-</tr>
-<tr class="success">
-  <td>
-    <dt>家庭情况：
-    <input type=text name=homeinfo>
-  </td>
-</tr>
-<tr class="success">
-  <td>
-    <dt>个人基本情况：
-    <input type=text name=linfo>
-  </td>
-</tr>
-<tr class="success">
-  <td>
-    <h3>介绍人描述</h3>
-  </td>
-</tr>
-<tr class="success">
-  <td>
-    <textarea rows="10" name=ginfo></textarea>
-  </td>
-</tr>
-<tr class="success">
-  <td colspan="4">
-    <dt>介绍人捐助建议：
-    <input type=text name=gadvice>
-  </td>
-</tr>
-<tr class="success">
-  <td >
-  <dt>介绍人信息：
-  </td>
-</tr>
-<tr class="success">
-  <td>
-    <dt>姓名：
-    <input type=text name=gname>
-  </td>
-  <td>
-    <dt>毕业/就读院校：
-    <input type=text name=gschool>
-  </td>
-</tr>
-<tr class="success">
-  <td >
-    <dt>教育公益背景：
-    <input type=text name=gbackground>
-  </td>
-  <td>
-    <dt>信息来源：
-    <input type=text name=ginfosource>
-  </td>
-</tr>
-<tr class="success">
-  <td colspan="4" width="830">
-    <h3>可供公开的SNS信息</h3>
-  </td>
-</tr>
-<tr class="success">
-  <td >
-    <dt>人人网：
-    <input type=text name=grr>
-  </td>
-  <td >
-    <dt>微博：
-    <input type=text name=gweibo>
-  </td>
-  <td >
-    <dt>开心网：
-    <input type=text name=gkaixin>
-  </td>
-</tr>
-</table>
-<dd><input class="btn btn-large btn-primary" type=submit value='提交'>
+
+<div class="row">
+  <div class="span8" style="background-color:#c0c0c0">
+    <h3>小叶子基本信息</h3>
+    <div class="row">
+      <div class="span2">姓名：<input type="text" name="lname" style="width:100px"></div>
+      <div class="span2">昵称：<input type="text" name="lnickname" style="width:100px"></div>
+      <div class="span2">性别：<input type="text" name="gender" style="width:100px"></div>
+      <div class="span2">民族：<input type="text" name="nationality" style="width:100px"></div>
+    </div>
+    <div class="row">
+      <div class="span2">年龄：<input type="text" name="age" style="width:100px"></div>
+      <div class="span2">年级：<input type="text" name="grade" style="width:100px"></div>
+      <div class="span2">生日：<input type="text" name="bday" style="width:100px"></div>
+      <div class="span2">星座：<input type="text" name="constellation" style="width:100px"></div>
+    </div>
+    <div class="row">
+      <div class="span7">就读学校：<input type="text" name="school"></div>
+    </div>
+    <div class="row">
+      <div class="span6">家庭住址：<input type="text" name="homeaddress"></div>
+     <div class="span6">联系电话：<input type="text" name="phone"></div>
+    </div>
+    <div class="row">
+      <div class="span7">家庭情况：<input type="text" name="homeinfo"></div>
+    </div>
+    <div class="row">
+      <div class="span7">个人基本情况：<input type="text" name="linfo"></div>
+    </div>
+    <div class="row">
+      <div class="span1">介绍人<br>描述:</div>
+      <div class="span6">
+        <textarea rows="10" name="ginfo"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="span9">介绍人捐助建议：<input type="text" name="gadvice"></div>
+    </div>
+  </div>
+  <div class="span8"  style="background-color:#c0c0f0">
+    <h3>介绍人信息</h3>
+    <div class="row">
+      <div class="span4">姓名：<input type="text" name="gname"></div>
+      <div class="span4">毕业/就读院校：<input type="text" name="gschool"></div>
+    </div>
+    <div class="row">
+      <div class="span4">教育公益背景：<input type="text" name="gbackground"></div>
+      <div class="span4">信息来源：<input type="text" name="ginfosource"></div>
+    </div>
+    <div class="row">
+      <div class="span9">
+        可供公开的SNS信息
+      <div class="row">
+        <div class="span9">人人网：<input type="text" name="grr"></div>
+      </div>
+      <div class="row">
+        <div class="span9">微&nbsp;&nbsp;&nbsp;博：<input type="text" name="gweibo"></div>
+      </div>
+      <div class="row">
+        <div class="span9">开心网：<input type="text" name="gkaixin"></div>
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="span8"  style="background-color:#c0c0f0">
+    <input class="btn btn-large btn-primary" type=submit value='提交'>
+  </div>
+</div>
 </form>
 
 </div>
