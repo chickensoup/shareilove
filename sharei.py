@@ -251,7 +251,7 @@ def raise_leaf(lleaf_id):
     if query_db('select * from raising where lleaf_id = ?', [lleaf_id], one=True) is None:
         db.execute('insert into raising (bleaf_id, lleaf_id, createtime) values (?, ?, ?)', [ int(session['bleaf_id']), int(lleaf_id), datetime.datetime.now() ] )
         db.commit()
-        db.execute('update lleaf set status = 2 where lleaf.lleaf_id = lleaf_id')
+        db.execute('update lleaf set status = 2 where lleaf.lleaf_id = ?', [lleaf_id])
         db.commit()
         flash('申请捐助成功！')
     else:
