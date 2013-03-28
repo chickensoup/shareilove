@@ -42,9 +42,9 @@
         <img src={{raiser.avatar}} style="width:80px" class="img-rounded">
         <a href="{{ url_for('show_bigleaf', bleaf_id=raiser.bleaf_id) }}" target="_blank"><h4>{{raiser.uname}}</h4></a>
       </div>
-      发起捐助，
+      发起捐助<br>
       {% if donaters %}
-        同时申请捐助的还有
+        同时申请加入捐助的还有
         {% for donater in donaters %}
           <div class="span2">
             <img src={{donater.avatar}} style="width:80px" class="img-rounded">
@@ -52,7 +52,7 @@
           </div>
         {% endfor %}
       {% else %}
-        目前没有其他人申请捐助
+        目前没有其他人申请加入捐助
       {% endif %}
       <br>
     <a class="btn" href="{{ url_for('raise_leaf', lleaf_id=littleleaf.lleaf_id) }}">申请捐助</a><br>
