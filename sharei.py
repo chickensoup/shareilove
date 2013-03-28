@@ -229,23 +229,50 @@ def show_littleleaf(lleaf_id):
     donaters = query_db('select donating.bleaf_id, bleaf.avatar, bleaf.uname from donating join bleaf on donating.bleaf_id = bleaf.bleaf_id where donating.lleaf_id = ?', [lleaf_id])
     raiser = query_db('select raising.bleaf_id as bleaf_id, bleaf.avatar as avatar, bleaf.uname as uname from raising join bleaf on raising.bleaf_id = bleaf.bleaf_id where raising.lleaf_id = ?', [lleaf_id], True)
     applyers = query_db('select applying.bleaf_id, bleaf.avatar, bleaf.uname from applying join bleaf on applying.bleaf_id = bleaf.bleaf_id where applying.lleaf_id = ?', [lleaf_id])
+    if 'logged_in' in session:
+        indonaters = query_db('select bleaf_id from donating where bleaf_id = ? and lleaf_id = ?', [session['bleaf_id'], lleaf_id], True)
+        inapplyers = query_db('select bleaf_id from applying where bleaf_id = ? and lleaf_id = ?', [session['bleaf_id'], lleaf_id], True)
+        return render_template('littleleaf_timeline.html', littleleaf=littleleaf, blogs=blogs, donaters=donaters, raiser=raiser, applyers=applyers, indonaters=indonaters, inapplyers=inapplyers)
 
     return render_template('littleleaf_timeline.html', littleleaf=littleleaf, blogs=blogs, donaters=donaters, raiser=raiser, applyers=applyers)
+
+    
 
 @app.route('/littleleaf/<lleaf_id>/raise')
 def raise_leaf(lleaf_id):
     """Adds the current user as raise of the given user."""
     if not 'logged_in' in session:
-        abort(401)
+        return redirect(url_for('login'))
     whom_id = get_lleaf_id(lleaf_id)
     if whom_id is None:
         abort(404)
     db = get_db()
-    db.execute('insert into raising (bleaf_id, lleaf_id, createtime) values (?, ?, ?)', [ int(session['bleaf_id']), int(lleaf_id), datetime.datetime.now() ] )
+
+    if query_db('select * from raising where lleaf_id = ?', [lleaf_id], one=True) is None:
+        db.execute('insert into raising (bleaf_id, lleaf_id, createtime) values (?, ?, ?)', [ int(session['bleaf_id']), int(lleaf_id), datetime.datetime.now() ] )
+        db.commit()
+        db.execute('update lleaf set status = 2 where lleaf.lleaf_id = lleaf_id')
+        db.commit()
+        flash('申请捐助成功！')
+    else:
+        """raised, can only apply for the liffle leaf"""
+        db.execute('insert into applying (bleaf_id, lleaf_id, createtime) values (?, ?, ?)', [ int(session['bleaf_id']), int(lleaf_id), datetime.datetime.now() ] )
+        db.commit()
+        flash('申请加入捐助成功！')
+
+    return redirect(url_for('show_littleleaf', lleaf_id=lleaf_id))
+
+def apply_leaf(lleaf_id):
+    """Adds the current user as raise of the given user."""
+    if not 'logged_in' in session:
+        return redirect(url_for('login'))
+    whom_id = get_lleaf_id(lleaf_id)
+    if whom_id is None:
+        abort(404)
+    db = get_db()
+    db.execute('insert into applying (bleaf_id, lleaf_id, createtime) values (?, ?, ?)', [ int(session['bleaf_id']), int(lleaf_id), datetime.datetime.now() ] )
     db.commit()
-    db.execute('update lleaf set status = 2 where lleaf.lleaf_id = lleaf_id')
-    db.commit()
-    flash('You are now raising a donation of  "%s"' % whom_id)
+    flash('You are now applying a donation of  "%s"' % whom_id)
     return redirect(url_for('show_littleleaf', lleaf_id=lleaf_id))
 
 @app.route('/bigleaf')

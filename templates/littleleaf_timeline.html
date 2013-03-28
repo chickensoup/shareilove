@@ -7,62 +7,78 @@
   {% endif %}
 
   <div class="row-fluid">
-    <div class="span6">
+    <div class="span3">
         <img src={{ littleleaf.avatar }} style="width:200px" class="img-rounded">
     </div>
     <div class="span6" style="text-align : left;background-color:#FFFFFF; padding-left:20">
-      <h4>昵称：{{littleleaf.lnickname}}</h4>
-      <p>性别：{{littleleaf.gender}}<br>
-      介绍人描述：{{littleleaf.ginfo}}<br>
+      <h4><b>昵称：</b>{{littleleaf.lnickname}}</h4>
+      <p><b>性别：</b>{{littleleaf.gender}}<br>
+      <b>介绍人描述：</b>{{littleleaf.ginfo}}<br>
     </div>
   </div><br>
 
   <div class="row-fluid">
-  {% if littleleaf.status == 1 %}
+  {% if littleleaf.status == 1 %} 
     <a class="btn" href="{{ url_for('raise_leaf', lleaf_id=littleleaf.lleaf_id) }}">发起捐助</a><br>
-  {% elif littleleaf.status == 2 %}
-    {% if session['logged_in'] %}
-      {% if session.bleaf_id == raiser.bleaf_id  %}
-        <p>我已经发起对这枚小叶子的捐助活动<a href="{{ url_for('show_bigleaf', bleaf_id=raiser.bleaf_id) }}" target="_blank"><h4>管理我的申请和捐助</h4></a><br>
-          {% if donaters %}
-            已经申请加入捐助的还有
-            {% for donater in donaters %}
-              <div class="span2">
-                <img src={{donater.avatar}} style="width:80px" class="img-rounded">
-                <a href="{{ url_for('show_bigleaf', bleaf_id=donater.bleaf_id) }}" target="_blank"><h4>{{donater.uname}}</h4></a>
-              </div>
-            {% endfor %}
-          {% else %}
-            目前没有其他人申请加入捐助
-          {% endif %}
-      {% endif %}
-    {% else %}
+  {% elif littleleaf.status == 2 %} 
+    {% if session.bleaf_id == raiser.bleaf_id  %} 
+      <p>我已经发起对这枚小叶子的捐助活动
+        <a href="{{ url_for('show_bigleaf', bleaf_id=raiser.bleaf_id) }}" target="_blank"><h4>管理我的申请和捐助</h4></a><br>
+        {% if applyers %}
+          已经申请加入捐助的还有
+          {% for applyer in applyers %}
+            <div class="span2">
+              <img src={{applyer.avatar}} style="width:80px" class="img-rounded">
+              <a href="{{ url_for('show_bigleaf', bleaf_id=applyer.bleaf_id) }}" target="_blank"><h4>{{applyer.uname}}</h4></a>
+            </div>
+          {% endfor %}
+        {% else %}
+          目前没有其他人申请加入捐助
+        {% endif %}
+      </p>
+    {% elif inapplyers %} 
       <p>已经由
-      <div class="span2">
-        <img src={{raiser.avatar}} style="width:80px" class="img-rounded">
-        <a href="{{ url_for('show_bigleaf', bleaf_id=raiser.bleaf_id) }}" target="_blank"><h4>{{raiser.uname}}</h4></a>
-      </div>
-      发起捐助<br>
-      {% if donaters %}
-        同时申请加入捐助的还有
-        {% for donater in donaters %}
+        <div class="span2">
+          <img src={{raiser.avatar}} style="width:80px" class="img-rounded">
+          <a href="{{ url_for('show_bigleaf', bleaf_id=raiser.bleaf_id) }}" target="_blank"><h4>{{raiser.uname}}</h4></a>
+        </div>
+        发起捐助
+      </p><br>
+      <p>我已经申请加入捐助</p>
+      <p>
+      {% if applyers %}
+        申请加入捐助的人：
+        {% for applyer in applyers %}
           <div class="span2">
-            <img src={{donater.avatar}} style="width:80px" class="img-rounded">
-            <a href="{{ url_for('show_bigleaf', bleaf_id=donater.bleaf_id) }}" target="_blank"><h4>{{donater.uname}}</h4></a>
+            <img src={{applyer.avatar}} style="width:80px" class="img-rounded">
+            <a href="{{ url_for('show_bigleaf', bleaf_id=applyer.bleaf_id) }}" target="_blank"><h4>{{applyer.uname}}</h4></a>
           </div>
         {% endfor %}
-      {% else %}
-        目前没有其他人申请加入捐助
       {% endif %}
-      <br>
-    <a class="btn" href="{{ url_for('raise_leaf', lleaf_id=littleleaf.lleaf_id) }}">申请捐助</a><br>
+      </p>
+    {% else %}
+      <p>已经由
+        <div class="span2">
+          <img src={{raiser.avatar}} style="width:80px" class="img-rounded">
+          <a href="{{ url_for('show_bigleaf', bleaf_id=raiser.bleaf_id) }}" target="_blank"><h4>{{raiser.uname}}</h4></a>
+        </div>
+        发起捐助
+      </p><br>
+      <p>
+      {% if applyers %}
+        申请加入捐助的人：
+        {% for applyer in applyers %}
+          <div class="span2">
+            <img src={{applyer.avatar}} style="width:80px" class="img-rounded">
+            <a href="{{ url_for('show_bigleaf', bleaf_id=applyer.bleaf_id) }}" target="_blank"><h4>{{applyer.uname}}</h4></a>
+          </div>
+        {% endfor %}
+      {% endif %}
+      </p>
+      <a class="btn" href="{{ url_for('raise_leaf', lleaf_id=littleleaf.lleaf_id) }}">申请加入捐助</a><br>
     {% endif %}
   {% elif littleleaf.status == 3 %}
     <p>这些大叶子正在捐助{% if littleleaf.gender == '男' %}他 {% else %}她{% endif %}
-      <div class="span2">
-          <img src={{raiser.avatar}} style="width:80px" class="img-rounded">
-      <a href="{{ url_for('show_bigleaf', bleaf_id=raiser.bleaf_id) }}" target="_blank"><h4>{{raiser.uname}}</h4></a>
-        </div>
       {% for donater in donaters %}
         <div class="span2">
           <img src={{donater.avatar}} style="width:80px" class="img-rounded">
@@ -85,7 +101,7 @@
         <div class="tl_plus">
         </div>
       </div>
-      {% if littleleaf.status == 3 %}
+      {% if indonaters %}
         <div class="tl_item">
         <div class="tl_inner">
           <form action="add_blog" method=post>
