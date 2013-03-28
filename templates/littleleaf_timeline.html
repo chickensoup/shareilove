@@ -14,6 +14,7 @@
       <h4><b>昵称：</b>{{littleleaf.lnickname}}</h4>
       <p><b>性别：</b>{{littleleaf.gender}}<br>
       <b>介绍人描述：</b>{{littleleaf.ginfo}}<br>
+      <b>介绍人捐助建议：</b>{{littleleaf.gadvice}}<br>
     </div>
   </div><br>
 
@@ -104,7 +105,7 @@
       {% if indonaters %}
         <div class="tl_item">
         <div class="tl_inner">
-          <form action="add_blog" method=post>
+          <form action="{{ url_for('add_blog', lleaf_id=littleleaf.lleaf_id) }}" method=post>
           <dl>
           <dd>撰写新的日志
           <dd><input type=text name=blogtitle  placeholder="标题...">
