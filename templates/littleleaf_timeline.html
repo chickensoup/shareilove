@@ -102,6 +102,20 @@
         <div class="tl_plus">
         </div>
       </div>
+      {% if indonaters %}
+        <div class="tl_item">
+        <div class="tl_inner">
+          <form action="{{ url_for('add_blog', lleaf_id=littleleaf.lleaf_id) }}" method=post>
+          <dl>
+          <dd>撰写新的日志
+          <dd><input type=text style="width:300px" name=blogtitle  placeholder="标题...">
+          <dd><textarea rows="10" style="width:300px" name=blogtext  placeholder="内容..."></textarea>
+          <dd><input class="btn btn-primary" type=submit value='提交'>
+          </dl>
+          </form>
+        </div>
+      </div>
+      {% endif %}
       {%if blogs %}
         {% for blog in blogs %}
         <div class="tl_item">
@@ -127,20 +141,6 @@
           </div>
         </div>
         {% endfor %}
-      {% endif %}
-      {% if indonaters %}
-        <div class="tl_item">
-        <div class="tl_inner">
-          <form action="{{ url_for('add_blog', lleaf_id=littleleaf.lleaf_id) }}" method=post>
-          <dl>
-          <dd>撰写新的日志
-          <dd><input type=text style="width:300px" name=blogtitle  placeholder="标题...">
-          <dd><textarea rows="10" style="width:300px" name=blogtext  placeholder="内容..."></textarea>
-          <dd><input class="btn btn-primary" type=submit value='提交'>
-          </dl>
-          </form>
-        </div>
-      </div>
       {% endif %}
     </div>
   </div>
