@@ -3,6 +3,7 @@
 
 {% block body %}
 <div class="container-fluid">
+<div class="container-fluid">
   {% if error %}<p class="alert alert-error"><strong>Error:</strong> {{ error }}
   {% endif %}
 
@@ -16,7 +17,9 @@
       <b>介绍人描述：</b>{{littleleaf.ginfo}}<br>
       <b>介绍人捐助建议：</b>{{littleleaf.gadvice}}<br>
     </div>
-    <div class="span3">
+  </div><br>
+
+  <div class="row-fluid">
   {% if littleleaf.status == 1 %} 
     <a class="btn" href="{{ url_for('raise_leaf', lleaf_id=littleleaf.lleaf_id) }}">发起捐助</a><br>
     <a href="{{ url_for('show_bigleaf', bleaf_id=session.bleaf_id) }}" target="_blank"><h4>管理我的申请和捐助</h4></a><br>
@@ -74,26 +77,22 @@
       <a href="{{ url_for('show_bigleaf', bleaf_id=session.bleaf_id) }}" target="_blank"><h4>管理我的申请和捐助</h4></a><br>
     {% endif %}
   {% elif littleleaf.status == 3 %}
-    <!---
     <p>这些大叶子正在捐助{% if littleleaf.gender == '男' %}他 {% else %}她{% endif %}
-      -->
-      <div class="mini-layout-body">
-        <p>
       {% for donater in donaters %}
-        <p>
+        <div class="span2">
           <img src={{donater.avatar}} style="width:80px" class="img-rounded">
           <a href="{{ url_for('show_bigleaf', bleaf_id=donater.bleaf_id) }}" target="_blank"><h4>{{donater.uname}}</h4></a>
+        </div>
       {% endfor %}
-      </div>
       <br>
-    <!---
     <a href="{{ url_for('show_bigleaf', bleaf_id=session.bleaf_id) }}" target="_blank"><h4>管理我的申请和捐助</h4></a><br>
-    -->
   {% endif %}
 </div>
-  </div><br><br>
+  
+
+  <hr>
   <div class="container-fluid">
-  <img src="/static/img/treehead.png" style="margin-left:38px;margin-bottom:-60px;margin-top:-60px">
+  <img src="/static/img/tree.png" style="margin-left:31px;margin-bottom:-60px;margin-top:-60px">
   </div>
   
   <div id="tl_container">
@@ -102,32 +101,6 @@
         <div class="tl_plus">
         </div>
       </div>
-      {%if blogs %}
-        {% for blog in blogs %}
-        <div class="tl_item">
-          <div class="tl_inner">
-            {% if blog.title == "image" %}
-              <p>
-               <a href="{{ url_for('show_bigleaf', bleaf_id=blog.bleaf_id) }}" target="_blank">
-                  <img src={{blog.avatar}} style="width:40px" class="img-rounded">
-                </a>
-                发布于：{{blog.createtime}}
-                <div style="height:300px">
-                  <img src= {{blog.blogtext }} style="height:300px">
-                </div>
-              </p>
-            {% else %}
-                <a href="{{ url_for('show_bigleaf', bleaf_id=blog.bleaf_id) }}" target="_blank">
-                  <img src={{blog.avatar}} style="width:40px" class="img-rounded">
-                </a>
-                发布于：{{blog.createtime}}
-                <h2><a href="{{ url_for('show_blog', blog_id=blog.blog_id) }}" target="_blank">{{blog.title}}</a></h2>
-                <p>{{blog.blogtext}}</p>
-            {% endif %}
-          </div>
-        </div>
-        {% endfor %}
-      {% endif %}
       {% if indonaters %}
         <div class="tl_item">
         <div class="tl_inner">
@@ -142,11 +115,37 @@
         </div>
       </div>
       {% endif %}
+      {%if blogs %}
+        {% for blog in blogs %}
+        <div class="tl_item">
+          <div class="tl_inner">
+            {% if blog.title == "image" %}
+              <p>
+               <a href="{{ url_for('show_bigleaf', bleaf_id=blog.bleaf_id) }}" target="_blank">
+                  <img src={{blog.avatar}} style="width:40px" class="img-rounded">
+                </a>
+                发布于：{{blog.createtime}}
+                <div style="height:200px">
+                  <img src= {{blog.blogtext }} style="height:200px">
+                </div>
+              </p>
+            {% else %}
+                <a href="{{ url_for('show_bigleaf', bleaf_id=blog.bleaf_id) }}" target="_blank">
+                  <img src={{blog.avatar}} style="width:40px" class="img-rounded">
+                </a>
+                发布于：{{blog.createtime}}
+                <h2><a href="{{ url_for('show_blog', blog_id=blog.blog_id) }}" target="_blank">{{blog.title}}</a></h2>
+                <p>{{blog.blogtext}}</p>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      {% endif %}
     </div>
   </div>
 
   <div class="container-fluid">
-  <img src="/static/img/treeroot.png" style="margin-left:10px">
+  <img src="/static/img/treeroot.png" style="margin-left:9px">
   </div>
 </div>
 </div>
