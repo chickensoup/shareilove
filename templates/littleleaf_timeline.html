@@ -2,7 +2,7 @@
 {% block title %}Little Leaf{% endblock %}
 
 {% block body %}
-<div class="container-fluid">
+<div class="well" style="margin-bottom:-25px">
   {% if error %}<p class="alert alert-error"><strong>Error:</strong> {{ error }}
   {% endif %}
 
@@ -10,7 +10,7 @@
     <div class="span3">
         <img src={{ littleleaf.avatar }} style="width:200px" class="img-rounded">
     </div>
-    <div class="span6" style="text-align : left;background-color:#FFFFFF; padding-left:20">
+    <div class="span6 well" style="text-align : left;background-color:#FFFFFF; padding-left:20">
       <h4><b>昵称：</b>{{littleleaf.lnickname}}</h4>
       <p><b>性别：</b>{{littleleaf.gender}}<br>
       <b>介绍人描述：</b>{{littleleaf.ginfo}}<br>
@@ -74,9 +74,9 @@
       <a href="{{ url_for('show_bigleaf', bleaf_id=session.bleaf_id) }}" target="_blank"><h4>管理我的申请和捐助</h4></a><br>
     {% endif %}
   {% elif littleleaf.status == 3 %}
-    <!---
-    <p>这些大叶子正在捐助{% if littleleaf.gender == '男' %}他 {% else %}她{% endif %}
-      -->
+    
+    <p><h4>捐助{% if littleleaf.gender == '男' %}他 {% else %}她{% endif %}的大叶子</h4>
+      
       <div class="mini-layout-body">
         <p>
       {% for donater in donaters %}
@@ -91,9 +91,9 @@
     -->
   {% endif %}
 </div>
-  </div><br><br>
+  </div></div><br><br>
   <div class="container-fluid">
-  <img src="/static/img/treehead.png" style="margin-left:38px;margin-bottom:-60px;margin-top:-60px">
+  <img src="/static/img/treehead.png" style="margin-left:25px;margin-bottom:-70px;margin-top:-60px">
   </div>
   
   <div id="tl_container">
@@ -146,7 +146,7 @@
   </div>
 
   <div class="container-fluid">
-  <img src="/static/img/treeroot.png" style="margin-left:10px">
+  <img src="/static/img/treeroot.png" style="margin-left:14px">
   </div>
 </div>
 </div>
