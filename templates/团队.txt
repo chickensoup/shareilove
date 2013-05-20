@@ -1,0 +1,54 @@
+	<div class="active item">
+	  <img src="static/img/wz-a.jpg"  alt="">
+		<div class="carousel-caption">
+		  <h4>王哲</h4>
+		</div>
+	</div>
+	<div class="active item">
+	  <img src="/static/img/lyx.jpg"  alt="">
+		<div class="carousel-caption">
+		  <h4>廖元辛</h4>
+		</div>
+	</div>
+	<div class="active item">
+	  <img src="/static/img/ly.jpg"  alt="">
+		<div class="carousel-caption">
+		  <h4>柳叶</h4>
+		</div>
+	</div>
+	<div class="active item">
+	  <img src="/static/img/lqh.jpg"  alt="">
+		<div class="carousel-caption">
+		  <h4>李奇卉</h4>
+		</div>
+	</div>
+	<div class="active item">
+	  <img src="/static/img/lss.jpg"  alt="">
+		<div class="carousel-caption">
+		  <h4>陆珊珊</h4>
+		</div>
+	</div>
+	<div class="active item">
+	  <img src="/static/img/yjx.jpg"  alt="">
+		<div class="carousel-caption">
+		  <h4>于佳馨</h4>
+		</div>
+	</div>
+	<div class="active item">
+	  <img src="/static/img/lzbl.jpg"  alt="">
+		<div class="carousel-caption">
+		  <h4>刘张铂泷</h4>
+		</div>
+	</div>
+	<div class="active item">
+	  <img src="static/img/qkj.jpg"  alt="">
+		<div class="carousel-caption">
+		  <h4>秦凯捷</h4>
+		</div>
+	</div>
+	<div class="active item">
+	  <img src="static/img/yxf.jpg"  alt="">
+		<div class="carousel-caption">
+		  <h4>杨晓帆</h4>
+		</div>
+	</div>
