@@ -194,7 +194,7 @@ def login():
             error = '密码不正确'
         else:
             flash('正在登陆...')
-                ['bleaf_id'] = user['bleaf_id']
+            session['bleaf_id'] = user['bleaf_id']
             session['logged_in'] = True
             session['bleaf_name'] = user['uname']
             return redirect(url_for('home'))
