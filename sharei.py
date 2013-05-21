@@ -397,7 +397,7 @@ def add_littleleaf():
                 request.form['grade'], request.form['bday'], request.form['constellation'], \
                 request.form['school'], request.form['homeaddress'], request.form['phone'], request.form['homeinfo'], \
                 request.form['linfo'], request.form['ginfo'], request.form['gadvice'], request.form['gname'], \
-                request.form['gschool'], request.form['gbackground'], request.form['ginfosource'], request.form['grr'], request.form['gweibo'], request.form['gkaixin'], 0, datetime.datetime.now()])
+                request.form['gschool'], request.form['gbackground'], request.form['ginfosource'], request.form['grr'], request.form['gweibo'], request.form['gkaixin'], 1, datetime.datetime.now()])
             db.commit()
             flash('Little leaf added!')
             return redirect(url_for('show_littleleafs'))
