@@ -16,7 +16,7 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 # configuration
 DATABASE = 'sharei.db'
-#DEBUG = True
+DEBUG = True
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
 PASSWORD = 'admin'
@@ -100,7 +100,7 @@ def get_user_engaged(bleaf_id):
     return int(rv1[0])+int(rv2[0])+int(rv3[0])
 
 def bleaf_allowed_applying(bleaf_id):
-    if get_user_engaged(bleaf_id) > 2:
+    if get_user_engaged(bleaf_id) > 3:
         return False
     else:
         return True
@@ -222,41 +222,43 @@ def show_littleleafs():
 def show_littleleaf(lleaf_id):
     littleleaf = query_db('select * from lleaf where lleaf.lleaf_id = ?', [lleaf_id], one=True)
     error = None
+
+    if littleleaf is None:
+            error = 'Invalid little leaf id'
+            return render_template('littleleaf.html', error=error)
+
+    blogs = query_db('select blog.blog_id as blog_id, blog.bleaf_id as bleaf_id, blog.lleaf_id as lleaf_id, blog.title as title, \
+                blog.blogtext as blogtext, bleaf.avatar as avatar, bleaf.uname as uname , blog.createtime as createtime \
+                from blog join bleaf on blog.bleaf_id = bleaf.bleaf_id where blog.lleaf_id = ? order by blog.createtime desc', [lleaf_id])
+    donaters = query_db('select donating.bleaf_id, bleaf.avatar, bleaf.uname from donating join bleaf on donating.bleaf_id = bleaf.bleaf_id where donating.lleaf_id = ?', [lleaf_id])
+    raiser = query_db('select raising.bleaf_id as bleaf_id, bleaf.avatar as avatar, bleaf.uname as uname from raising join bleaf on raising.bleaf_id = bleaf.bleaf_id where raising.lleaf_id = ?', [lleaf_id], True)
+    applyers = query_db('select applying.bleaf_id, bleaf.avatar, bleaf.uname from applying join bleaf on applying.bleaf_id = bleaf.bleaf_id where applying.lleaf_id = ?', [lleaf_id])
+
+    allowed_raiser = False
+    allowed_applyer = False
+    indonaters = False
+    inapplyers = False
+
     if 'bleaf_id' not in session:
         loggedin = False
     else:
         loggedin = True
-        if bleaf_allowed_applying(int(session['bleaf_id'])):
-            allowed = True
-        else:
-            allowed = False
 
-        if littleleaf is None:
-            error = 'Invalid little leaf id'
-            return render_template('littleleaf.html', error=error)
-
-        if query_db('select bleaf_id from raising where bleaf_id = ?', [session['bleaf_id']], True) is None:
+        if (query_db('select bleaf_id from raising where bleaf_id = ?', [session['bleaf_id']], True) is None) and bleaf_allowed_applying(session['bleaf_id']):
             allowed_raiser = True
-        else:
-            allowed_raiser = False
 
-        if query_db('select bleaf_id from applying where bleaf_id = ?', [session['bleaf_id']], True) is None:
+        if (query_db('select bleaf_id from applying where bleaf_id = ?', [session['bleaf_id']], True) is None) and bleaf_allowed_applying(session['bleaf_id']):
             allowed_applyer = True
-        else:
-            allowed_applyer = False
 
-        blogs = query_db('select blog.blog_id as blog_id, blog.bleaf_id as bleaf_id, blog.lleaf_id as lleaf_id, blog.title as title, \
-                blog.blogtext as blogtext, bleaf.avatar as avatar, bleaf.uname as uname , blog.createtime as createtime \
-                from blog join bleaf on blog.bleaf_id = bleaf.bleaf_id where blog.lleaf_id = ? order by blog.createtime desc', [lleaf_id])
-        donaters = query_db('select donating.bleaf_id, bleaf.avatar, bleaf.uname from donating join bleaf on donating.bleaf_id = bleaf.bleaf_id where donating.lleaf_id = ?', [lleaf_id])
-        raiser = query_db('select raising.bleaf_id as bleaf_id, bleaf.avatar as avatar, bleaf.uname as uname from raising join bleaf on raising.bleaf_id = bleaf.bleaf_id where raising.lleaf_id = ?', [lleaf_id], True)
-        applyers = query_db('select applying.bleaf_id, bleaf.avatar, bleaf.uname from applying join bleaf on applying.bleaf_id = bleaf.bleaf_id where applying.lleaf_id = ?', [lleaf_id])
-        if 'logged_in' in session:
-            indonaters = query_db('select bleaf_id from donating where bleaf_id = ? and lleaf_id = ?', [session['bleaf_id'], lleaf_id], True)
-            inapplyers = query_db('select bleaf_id from applying where bleaf_id = ? and lleaf_id = ?', [session['bleaf_id'], lleaf_id], True)
-            return render_template('littleleaf_timeline.html', littleleaf=littleleaf, blogs=blogs, donaters=donaters, raiser=raiser, applyers=applyers, indonaters=indonaters, inapplyers=inapplyers, allowed_raiser=allowed_raiser, allowed_applyer=allowed_applyer)
+        if query_db('select bleaf_id from donating where bleaf_id = ? and lleaf_id = ?', [session['bleaf_id'], lleaf_id], True) is not None:
+            indonaters = True
+        
+        if query_db('select bleaf_id from applying where bleaf_id = ? and lleaf_id = ?', [session['bleaf_id'], lleaf_id], True) is not None:
+            inapplyers = True
 
-    return render_template('littleleaf_timeline.html', littleleaf=littleleaf, blogs=blogs, donaters=donaters, raiser=raiser, applyers=applyers, allowed_raiser=allowed_raiser, allowed_applyer=allowed_applyer)
+        return render_template('littleleaf_timeline.html', littleleaf=littleleaf, blogs=blogs, donaters=donaters, raiser=raiser, applyers=applyers, indonaters=indonaters, inapplyers=inapplyers, allowed_raiser=allowed_raiser, allowed_applyer=allowed_applyer)
+
+    return render_template('littleleaf_timeline.html', littleleaf=littleleaf, blogs=blogs, donaters=donaters, raiser=raiser, applyers=applyers, indonaters=indonaters, inapplyers=inapplyers, allowed_raiser=allowed_raiser, allowed_applyer=allowed_applyer)
 
 @app.route('/littleleaf/<lleaf_id>/add_blog', methods=['GET', 'POST'])
 def add_blog(lleaf_id):
@@ -293,23 +295,19 @@ def raise_leaf(lleaf_id):
     inraisers = query_db('select bleaf_id from raising where bleaf_id = ?', [session['bleaf_id']], True)
     inapplyers = query_db('select bleaf_id from applying where bleaf_id = ?', [session['bleaf_id']], True)
 
-    if inraisers is None:
+    if query_db('select bleaf_id from raising where bleaf_id = ?', [session['bleaf_id']], True) is None and bleaf_allowed_applying(session['bleaf_id']):
         db.execute('insert into raising (bleaf_id, lleaf_id, createtime) values (?, ?, ?)', [ int(session['bleaf_id']), int(lleaf_id), datetime.datetime.now() ] )
         db.commit()
         db.execute('update lleaf set status = 2 where lleaf.lleaf_id = ?', [lleaf_id])
         db.commit()
         flash('申请捐助成功！')
-    elif inapplyers is None :
-        """raised, can only apply for the liffle leaf"""
-        db.execute('insert into applying (bleaf_id, lleaf_id, createtime) values (?, ?, ?)', [ int(session['bleaf_id']), int(lleaf_id), datetime.datetime.now() ] )
-        db.commit()
-        flash('申请加入捐助成功！')
     else:
-        error  = '您不能再申请捐助更多的小叶子了'
-        flash('您不能再申请捐助更多的小叶子了')
+        error  = '您不能申请捐助这枚小叶子'
+        flash('您不能申请捐助这枚小叶子')
 
     return redirect(url_for('show_littleleaf', lleaf_id=lleaf_id))
 
+@app.route('/littleleaf/<lleaf_id>/apply')
 def apply_leaf(lleaf_id):
     """Adds the current user as raise of the given user."""
     error = None
@@ -320,7 +318,7 @@ def apply_leaf(lleaf_id):
         abort(404)
     db = get_db()
 
-    if inapplyers is None :
+    if query_db('select bleaf_id from applying where bleaf_id = ?', [session['bleaf_id']], True) is None and bleaf_allowed_applying(session['bleaf_id']):
         """raised, can only apply for the liffle leaf"""
         db.execute('insert into applying (bleaf_id, lleaf_id, createtime) values (?, ?, ?)', [ int(session['bleaf_id']), int(lleaf_id), datetime.datetime.now() ] )
         db.commit()
@@ -407,4 +405,4 @@ def add_littleleaf():
 if __name__ == '__main__':
     #app.debug = True
     #app.run()
-    app.run('0.0.0.0', port=80)
+    app.run('0.0.0.0', port=8080)

@@ -3,7 +3,7 @@
 
 {% block body %}
 <div class="well" style="margin-bottom:-25px">
-  {% if error %}<p class="alert alert-error"><strong>Error:</strong> {{ error }}{% endif %}
+  {% if error %}<p class="alert alert-error"><strong>Error:</strong></p>{{ error }}{% endif %}
 
   <div class="row-fluid">
     <div class="span3">
@@ -13,95 +13,129 @@
       <h4><b>昵称：</b>{{littleleaf.lnickname}}</h4>
       <p><b>性别：</b>{{littleleaf.gender}}<br>
       <b>介绍人描述：</b>{{littleleaf.ginfo}}<br>
-      <b>介绍人捐助建议：</b>{{littleleaf.gadvice}}<br>
+      <b>介绍人捐助建议：</b>{{littleleaf.gadvice}}</p><br>
     </div>
+  
     <div class="span3">
-  {% if littleleaf.status == 1 %} 
-    {% if allowed_raiser %}
-        <a class="btn" href="{{ url_for('raise_leaf', lleaf_id=littleleaf.lleaf_id) }}">发起捐助</a><br>
-    {% else %}
-        <p>您已经达到捐助/申请上限，目前不能申请捐助这枚小叶子</p>
-    {% endif %}
-    
-    <a href="{{ url_for('show_bigleaf', bleaf_id=session.bleaf_id) }}" target="_blank"><h4>管理我的申请和捐助</h4></a><br>
-  {% elif littleleaf.status == 2 %} 
-    {% if session.bleaf_id == raiser.bleaf_id  %} 
-      <p>我已经发起对这枚小叶子的捐助活动
-        <a href="{{ url_for('show_bigleaf', bleaf_id=raiser.bleaf_id) }}" target="_blank"><h4>管理我的申请和捐助</h4></a><br>
-        {% if applyers %}
-          已经申请加入捐助
-          {% for applyer in applyers %}
-            <div class="span2">
-              <img src={{applyer.avatar}} style="width:80px" class="img-rounded">
-              <a href="{{ url_for('show_bigleaf', bleaf_id=applyer.bleaf_id) }}" target="_blank"><h4>{{applyer.uname}}</h4></a>
-            </div>
-          {% endfor %}
-        {% else %}
-          目前没有其他人申请加入捐助
-        {% endif %}
-      </p>
-    {% elif inapplyers %} 
+  {% if not session.logged_in %}
+    {% if littleleaf.status == 1 %} 
+      <a class="btn" href="{{ url_for('login') }}">登陆或注册后发起捐助</a><br>
+    {% elif littleleaf.status == 2 %} 
       <p>捐助发起者：</p>
         <div class="span2">
           <img src={{raiser.avatar}} style="width:80px" class="img-rounded">
           <a href="{{ url_for('show_bigleaf', bleaf_id=raiser.bleaf_id) }}" target="_blank"><h4>{{raiser.uname}}</h4></a>
         </div>
-      <p>我已经申请加入捐助</p>
       <p>
       {% if applyers %}
-        申请加入捐助的人：</p>
+        申请加入捐助的人：
         {% for applyer in applyers %}
           <div class="span2">
-            <img src={{applyer.avatar}} style="width:80px" class="img-rounded">
-            <a href="{{ url_for('show_bigleaf', bleaf_id=applyer.bleaf_id) }}" target="_blank"><h4>{{applyer.uname}}</h4></a>
+          <img src={{applyer.avatar}} style="width:80px" class="img-rounded">
+          <a href="{{ url_for('show_bigleaf', bleaf_id=applyer.bleaf_id) }}" target="_blank"><h4>{{applyer.uname}}</h4></a>
           </div>
         {% endfor %}
       {% endif %}
-      <a href="{{ url_for('show_bigleaf', bleaf_id=session.bleaf_id) }}" target="_blank"><h4>管理我的申请和捐助</h4></a><br>
-    {% else %}
-        <p>捐助发起者：</p>
-            <div class="span2">
-              <img src={{raiser.avatar}} style="width:80px" class="img-rounded">
-              <a href="{{ url_for('show_bigleaf', bleaf_id=raiser.bleaf_id) }}" target="_blank"><h4>{{raiser.uname}}</h4></a>
-            </div>
-      <p>
-      {% if applyers %}
-        申请加入捐助的人：</p>
-        {% for applyer in applyers %}
-          <div class="span2">
-            <img src={{applyer.avatar}} style="width:80px" class="img-rounded">
-            <a href="{{ url_for('show_bigleaf', bleaf_id=applyer.bleaf_id) }}" target="_blank"><h4>{{applyer.uname}}</h4></a>
-          </div>
-        {% endfor %}
-      {% endif %}
-
-      {% if allowed_applyer %}
-        <a class="btn" href="{{ url_for('raise_leaf', lleaf_id=littleleaf.lleaf_id) }}">申请加入捐助</a><br>
-      {% else %}
-        <p>您已经达到捐助/申请上限，目前不能申请捐助这枚小叶子</p>
-      {% endif %}
-      
-      <a href="{{ url_for('show_bigleaf', bleaf_id=session.bleaf_id) }}" target="_blank"><h4>管理我的申请和捐助</h4></a><br>
-    {% endif %}
-  {% elif littleleaf.status == 3 %}
-    
-    <p><h4>捐助{% if littleleaf.gender == '男' %}他 {% else %}她{% endif %}的大叶子</h4>
-      
+      </p>
+      <a class="btn" href="{{ url_for('login') }}">登陆或注册后申请加入捐助</a><br>
+    {% elif littleleaf.status == 3 %}
+      <p><h4>捐助{% if littleleaf.gender == '男' %}他{% else %}她{% endif %}的大叶子</h4></p>
       <div class="mini-layout-body">
-        <p>
+      <p>
       {% for donater in donaters %}
-        <p>
-          <img src={{donater.avatar}} style="width:80px" class="img-rounded">
-          <a href="{{ url_for('show_bigleaf', bleaf_id=donater.bleaf_id) }}" target="_blank"><h4>{{donater.uname}}</h4></a>
+      <p>
+        <img src={{donater.avatar}} style="width:80px" class="img-rounded">
+        <a href="{{ url_for('show_bigleaf', bleaf_id=donater.bleaf_id) }}" target="_blank"><h4>{{donater.uname}}</h4></a>
+      </p>
       {% endfor %}
+      </p>
       </div>
       <br>
-    <!---
+    {% endif %}
+  {% else %}
     <a href="{{ url_for('show_bigleaf', bleaf_id=session.bleaf_id) }}" target="_blank"><h4>管理我的申请和捐助</h4></a><br>
-    -->
+    {% if littleleaf.status == 1 %} 
+      {% if allowed_raiser %}
+        <a class="btn" href="{{ url_for('raise_leaf', lleaf_id=littleleaf.lleaf_id) }}">发起捐助</a><br>
+      {% else %}
+      <p>您目前不能申请捐助这枚小叶子</p>
+      {% endif %}
+    {% elif littleleaf.status == 2 %} 
+      {% if session.bleaf_id == raiser.bleaf_id  %} 
+      <p>我已经发起对这枚小叶子的捐助活动
+        {% if applyers %}
+          已经申请加入捐助
+          {% for applyer in applyers %}
+          <div class="span2">
+            <img src={{applyer.avatar}} style="width:80px" class="img-rounded">
+            <a href="{{ url_for('show_bigleaf', bleaf_id=applyer.bleaf_id) }}" target="_blank"><h4>{{applyer.uname}}</h4></a>
+          </div>
+          {% endfor %}
+        {% else %}
+          目前没有其他人申请加入捐助
+        {% endif %}
+      </p>
+      {% elif inapplyers %} 
+        <p>捐助发起者：</p>
+        <div class="span2">
+          <img src={{raiser.avatar}} style="width:80px" class="img-rounded">
+          <a href="{{ url_for('show_bigleaf', bleaf_id=raiser.bleaf_id) }}" target="_blank"><h4>{{raiser.uname}}</h4></a>
+        </div>
+        <p>我已经申请加入捐助</p>
+        <p>
+        {% if applyers %}
+        申请加入捐助的人：
+        {% for applyer in applyers %}
+          <div class="span2">
+          <img src={{applyer.avatar}} style="width:80px" class="img-rounded">
+          <a href="{{ url_for('show_bigleaf', bleaf_id=applyer.bleaf_id) }}" target="_blank"><h4>{{applyer.uname}}</h4></a>
+          </div>
+        {% endfor %}
+        {% endif %}
+        </p>
+      {% else %}
+        <p>捐助发起者：</p>
+          <div class="span2">
+            <img src={{raiser.avatar}} style="width:80px" class="img-rounded">
+            <a href="{{ url_for('show_bigleaf', bleaf_id=raiser.bleaf_id) }}" target="_blank"><h4>{{raiser.uname}}</h4></a>
+          </div>
+        <p>
+        {% if applyers %}
+        申请加入捐助的人：
+        {% for applyer in applyers %}
+          <div class="span2">
+          <img src={{applyer.avatar}} style="width:80px" class="img-rounded">
+          <a href="{{ url_for('show_bigleaf', bleaf_id=applyer.bleaf_id) }}" target="_blank"><h4>{{applyer.uname}}</h4></a>
+          </div>
+        {% endfor %}
+        {% endif %}
+        </p>
+        {% if allowed_applyer %}
+        <a class="btn" href="{{ url_for('apply_leaf', lleaf_id=littleleaf.lleaf_id) }}">申请加入捐助</a><br>
+        {% else %}
+        <p>您目前不能申请捐助这枚小叶子</p>
+        {% endif %}
+      {% endif %}
+    {% elif littleleaf.status == 3 %}
+      <h4>捐助{% if littleleaf.gender == '男' %}他{% else %}她{% endif %}的大叶子</h4>
+      <div class="mini-layout-body">
+      <p>
+      {% for donater in donaters %}
+      <p>
+        <img src={{donater.avatar}} style="width:80px" class="img-rounded">
+        <a href="{{ url_for('show_bigleaf', bleaf_id=donater.bleaf_id) }}" target="_blank"><h4>{{donater.uname}}</h4></a>
+       </p>
+      {% endfor %}
+      </div>
+      </p>
+      <br>
+    {% endif %}
   {% endif %}
+  </div>
 </div>
-  </div></div><br><br>
+</div>
+
+  <br><br>
   <div class="container-fluid">
   <img src="/static/img/treehead.png" style="margin-left:25px;margin-bottom:-70px;margin-top:-60px">
   </div>
@@ -112,7 +146,7 @@
         <div class="tl_plus">
         </div>
       </div>
-      {% if indonaters %}
+      {% if session.logged_in and indonaters %}
         <div class="tl_item">
         <div class="tl_inner">
           <form action="{{ url_for('add_blog', lleaf_id=littleleaf.lleaf_id) }}" method=post>
@@ -120,55 +154,6 @@
           <dd>撰写新的日志
           <dd><input type=text style="width:300px" name=blogtitle  placeholder="标题...">
           <dd><textarea rows="10" style="width:300px" name=blogtext  placeholder="内容..."></textarea>
-          <div id="wysihtml5-editor-toolbar">
-      <header>
-        <ul class="commands">
-          <li data-wysihtml5-command="bold" title="Make text bold (CTRL + B)" class="command"></li>
-          <li data-wysihtml5-command="italic" title="Make text italic (CTRL + I)" class="command"></li>
-          <li data-wysihtml5-command="insertUnorderedList" title="Insert an unordered list" class="command"></li>
-          <li data-wysihtml5-command="insertOrderedList" title="Insert an ordered list" class="command"></li>
-          <li data-wysihtml5-command="createLink" title="Insert a link" class="command"></li>
-          <li data-wysihtml5-command="insertImage" title="Insert an image" class="command"></li>
-          <li data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1" title="Insert headline 1" class="command"></li>
-          <li data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2" title="Insert headline 2" class="command"></li>
-          <li data-wysihtml5-command-group="foreColor" class="fore-color" title="Color the selected text" class="command">
-            <ul>
-              <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="silver"></li>
-              <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="gray"></li>
-              <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="maroon"></li>
-              <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="red"></li>
-              <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="purple"></li>
-              <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="green"></li>
-              <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="olive"></li>
-              <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="navy"></li>
-              <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="blue"></li>
-            </ul>
-          </li>
-          <li data-wysihtml5-command="insertSpeech" title="Insert speech" class="command"></li>
-          <li data-wysihtml5-action="change_view" title="Show HTML" class="action"></li>
-        </ul>
-      </header>
-      <div data-wysihtml5-dialog="createLink" style="display: none;">
-        <label>
-          Link:
-          <input data-wysihtml5-dialog-field="href" value="http://">
-        </label>
-        <a data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a data-wysihtml5-dialog-action="cancel">Cancel</a>
-      </div>
-
-      <div data-wysihtml5-dialog="insertImage" style="display: none;">
-        <label>
-          Image:
-          <input data-wysihtml5-dialog-field="src" value="http://">
-        </label>
-        <a data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a data-wysihtml5-dialog-action="cancel">Cancel</a>
-      </div>
-    </div>
-    
-    <section>
-      <textarea id="wysihtml5-editor" spellcheck="false" wrap="off" autofocus placeholder="Enter something ..." name=blogtext>
-      </textarea>
-    </section>
           <dd><input class="btn btn-primary" type=submit value='提交'>
           </dl>
           </form>
@@ -207,6 +192,5 @@
   <div class="container-fluid">
   <img src="/static/img/treeroot.png" style="margin-left:14px">
   </div>
-</div>
 </div>
 {% endblock %}
