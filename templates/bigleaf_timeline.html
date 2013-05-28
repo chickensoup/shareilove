@@ -30,17 +30,18 @@
       <div class="span6" style="text-align : left;background-color:#FFFFFF; padding-left:20">
         <div class="row-fluid">
           <form action="" method=post>
-
           {% for raisebleaf in raise_applybleafs %}
             <div class="span2">
-              <input name={{ raisebleaf.bleaf_id }} type="checkbox" value="">
-              <img src={{ raisebleaf.avatar }} class="img-rounded">
-              <a href="{{ url_for('show_bigleaf', bleaf_id=raisebleaf.bleaf_id) }}" target="_blank"><h4>{{raisebleaf.uname}}</h4></a>
-              <br>
+              <label class="checkbox">
+                <input name="raise" type="checkbox" value={{ raisebleaf.bleaf_id }}>
+                <img src={{ raisebleaf.avatar }} class="img-rounded">
+                <a href="{{ url_for('show_bigleaf', bleaf_id=raisebleaf.bleaf_id) }}" target="_blank"><h4>{{raisebleaf.uname}}</h4></a>
+                <br>
+              </label>
             </div>
           {% endfor %}
-
           <input class="btn btn-primary" type=submit value='提交'>
+        </form>
         </div>
       </div>
     </div><hr>
@@ -68,8 +69,9 @@
 
     {% if donate_lleafs %}
     <h4>我正在参与的捐助</h4></hr>
+      
       {% for lleaf_id in donate_lleafs.keys() %}
-        <div class="row-fluid">
+      <div class="row-fluid">
         <div class="span2">
           <img src={{ donate_lleafs[lleaf_id].avatar }} class="img-rounded">
           <a href="{{ url_for('show_littleleaf', lleaf_id=donate_lleafs[lleaf_id].lleaf_id) }}" target="_blank"><h4>{{donate_lleafs[lleaf_id].lnickname}}</h4></a>
@@ -84,12 +86,13 @@
             {% endfor %}
           </div>
         </div>
+      </div><br>
       {% endfor %}
-    </div><br><hr>
+    <br><hr>
     {% endif %}
 
   {% else %}
-  {% if raise_lleaf %}
+    {% if raise_lleaf %}
     <h4>{{bigleaf.uname}}发起的捐助</h4></hr>
       <div class="row-fluid">
       <div class="span2">

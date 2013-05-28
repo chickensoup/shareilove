@@ -377,6 +377,22 @@ def show_bigleaf(bleaf_id):
             donate_bleafs[doleaf['lleaf_id']] = donate_bleaf
             donate_lleafs[doleaf['lleaf_id']] = doleaf
 
+    if request.method == 'POST':
+        db = get_db()
+        applylist = request.form.getlist('raise')
+        applylist.append(bleaf_id)
+        #print applylist
+        r1 = query_db('delete from raising where bleaf_id = ?', [int(bleaf_id)])
+        print r1
+        print bleaf_id
+        db.execute('delete from applying where lleaf_id = ?', [int(raise_lleaf['lleaf_id'])])
+        db.execute('update lleaf set status = 3 where lleaf_id = ?', [int(raise_lleaf['lleaf_id'])])
+        for appid in applylist:
+            db.execute('insert into donating (bleaf_id, lleaf_id) values (?, ?)', [int(appid), int(raise_lleaf['lleaf_id'])])
+        db.commit()
+
+        return redirect( url_for('show_bigleaf', bleaf_id=bleaf_id))
+
     return render_template('bigleaf_timeline.html', bigleaf=bigleaf, blogs=blogs, bleaf_self=bleaf_self, raise_lleaf=raise_lleaf, raise_applybleafs=raise_applybleafs, apply_lleaf=apply_lleaf, apply_raisebleaf=apply_raisebleaf, apply_applybleafs=apply_applybleafs, donate_bleafs=donate_bleafs, donate_lleafs=donate_lleafs)
 
 @app.route('/blog/<blog_id>')
@@ -414,4 +430,4 @@ def add_littleleaf():
 if __name__ == '__main__':
     #app.debug = True
     #app.run()
-    app.run('0.0.0.0', port=80)
+    app.run('0.0.0.0', port=8080)
