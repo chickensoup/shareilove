@@ -339,36 +339,45 @@ def show_bigleafs():
     else:
         return render_template('bigleaf.html', error=error, bigleafs = bigleafs)
 
-@app.route('/bigleaf/<bleaf_id>')
+@app.route('/bigleaf/<bleaf_id>', methods=['GET', 'POST'])
 def show_bigleaf(bleaf_id):
-    bigleaf = query_db('select * from bleaf where bleaf.bleaf_id = ?', [bleaf_id], one=True)
+    bigleaf = query_db('select * from bleaf where bleaf.bleaf_id = ?', [bleaf_id], True)
     if bigleaf is None:
         error = 'Invalid big leaf id'
         return render_template('home.html', error=error)
-
+        
     blogs = query_db('select * from blog where blog.bleaf_id = ?', [bleaf_id])
 
-    if session['bleaf_id'] == bleaf_id:
+    if 'bleaf_id' in session and int(session['bleaf_id'])==int(bleaf_id):
         bleaf_self = True
     else:
         bleaf_self = False
-
-    raise_raisebleaf = query_db('select bleaf_id, avatar, uname from bleaf where bleaf_id = ?', [bleaf_id], True)
-    raise_lleaf = query_db('select lleaf.lleaf_id as lleaf_id, lleaf.avatar as avatar, lleaf.lnickname from raising join lleaf on raising.lleaf_id = lleaf.lleaf_id where raising.bleaf_id = ?', [bleaf_id], False)
+        
+    raise_lleaf = query_db('select lleaf.lleaf_id as lleaf_id, lleaf.avatar as avatar, lleaf.lnickname as lnickname from raising join lleaf on raising.lleaf_id = lleaf.lleaf_id where raising.bleaf_id = ?', [bleaf_id], True) #我发起捐助的小叶子
     if raise_lleaf is None:
-        raise_applybleafs
+        raise_applybleafs = None
     else:
-        raise_applybleafs = query_db('select bleaf.bleaf_id, bleaf.uname, bleaf.avatar from applying join bleaf on applying.bleaf_id = bleaf.bleaf_id where applying.lleaf_id = ?', [raise_lleaf.lleaf_id], False)
+        raise_applybleafs = query_db('select bleaf.bleaf_id, bleaf.uname, bleaf.avatar from applying join bleaf on applying.bleaf_id = bleaf.bleaf_id where applying.lleaf_id = ?', [raise_lleaf[0]], False)
 
-    apply_lleaf = query_db('select lleaf.lleaf_id, lleaf.avatar, lleaf.uname from applying join lleaf on applying.lleaf_id = lleaf.lleaf_id where raising.bleaf_id = ?', [bleaf_id], True)
+    apply_lleaf = query_db('select lleaf.lleaf_id as lleaf_id, lleaf.avatar as avatar, lleaf.lnickname as lnickname from applying join lleaf on applying.lleaf_id = lleaf.lleaf_id where applying.bleaf_id = ?', [bleaf_id], True) #我申请捐助的小叶子
     if apply_lleaf is None:
         apply_raisebleaf = None
         apply_applybleafs = None
     else:
-        apply_raisebleaf = query_db('select bleaf_id.bleaf_id, bleaf_id.avatar, bleaf_id.uname from bleaf join raising on bleaf.bleaf_id = raising.bleaf_id where raising.leaf_id = ?', [apply_lleaf.lleaf_id], True)
-        apply_applybleafs = query_db('select bleaf.bleaf_id, bleaf.uname, bleaf.avatar from applying join bleaf on applying.bleaf_id = bleaf.bleaf_id where applying.lleaf_id = ?', [apply_lleaf.lleaf_id], False)
+        apply_raisebleaf = query_db('select bleaf.bleaf_id, bleaf.avatar, bleaf.uname from bleaf join raising on bleaf.bleaf_id = raising.bleaf_id where raising.lleaf_id = ?', [apply_lleaf[0]], True) #我申请捐助的小叶子的捐助发起大叶子
+        apply_applybleafs = query_db('select bleaf.bleaf_id, bleaf.uname, bleaf.avatar from applying join bleaf on applying.bleaf_id = bleaf.bleaf_id where applying.lleaf_id = ?', [apply_lleaf[0]], False) #我申请捐助的小叶子的其他申请者
 
-    return render_template('bigleaf_timeline.html', bigleaf=bigleaf, bleaf_self=bleaf_self, raise_raisebleaf=raise_raisebleaf, raise_llea=raise_lleaf, raise_applybleafs=raise_applybleafs, apply_lleaf=apply_lleaf, apply_raisebleaf=apply_raisebleaf, apply_applybleafs=apply_applybleafs)
+    dobleafs = None
+    dobleafs = query_db('select lleaf.lleaf_id as lleaf_id, lleaf.avatar as avatar, lleaf.lnickname as lnickname from donating join lleaf on donating.lleaf_id = lleaf.lleaf_id where donating.bleaf_id = ?', [bleaf_id], False) #我捐助的小叶子
+    donate_bleafs = {}
+    donate_lleafs = {}
+    if dobleafs is not None:
+        for doleaf in dobleafs:
+            donate_bleaf = query_db('select bleaf.bleaf_id, bleaf.uname, bleaf.avatar from donating join bleaf on donating.bleaf_id = bleaf.bleaf_id where donating.lleaf_id = ?', [doleaf['lleaf_id']], False) #我捐助的小叶子的所有捐助者
+            donate_bleafs[doleaf['lleaf_id']] = donate_bleaf
+            donate_lleafs[doleaf['lleaf_id']] = doleaf
+
+    return render_template('bigleaf_timeline.html', bigleaf=bigleaf, blogs=blogs, bleaf_self=bleaf_self, raise_lleaf=raise_lleaf, raise_applybleafs=raise_applybleafs, apply_lleaf=apply_lleaf, apply_raisebleaf=apply_raisebleaf, apply_applybleafs=apply_applybleafs, donate_bleafs=donate_bleafs, donate_lleafs=donate_lleafs)
 
 @app.route('/blog/<blog_id>')
 def show_blog(blog_id):
@@ -405,4 +414,4 @@ def add_littleleaf():
 if __name__ == '__main__':
     #app.debug = True
     #app.run()
-    app.run('0.0.0.0', port=8080)
+    app.run('0.0.0.0', port=80)
